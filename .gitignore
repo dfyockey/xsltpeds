@@ -1,0 +1,5 @@
+/Build/xsltpeds
+/Build/src/*.d
+/Build/src/*.o
+/Debug/
+/Release/
