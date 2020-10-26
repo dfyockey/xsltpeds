@@ -13,7 +13,7 @@ SystemXsltProcessor::SystemXsltProcessor () {
 		xsltproc = &SystemXsltProcessor::xalan;
 		cout << "Xalan found!" << endl;
 	}
-#ifdef _Win32
+#ifdef _WIN32
 	else if ( exists( string(getenv("windir")) + "\\msxsl.exe" ) ) {
 			xsltproc = &SystemXsltProcessor::msxsl;
 			cout << "MSXSL found!" << endl;

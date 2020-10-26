@@ -34,7 +34,3 @@
 ### Microsoft Windows users
   - MSXML 6.0 (`msxml6.msi` required for 32-bit PCs; `msxml6_x64.msi` required for most 64-bit PCs; `msxml6_ia64.msi` required for 64-bit PCs with Itanium processors)
   - MSXSL (`msxsl.exe` required; should be placed in the "Windows" folder, which is ordinarily `C:\Windows` ).
-  
-### Microsoft Windows linux-development-environment users (e.g. WSL, Cygwin)
-  Either of the above arrangements may be used. If both are provided, Xalan
-  will be used.

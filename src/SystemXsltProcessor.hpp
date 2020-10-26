@@ -31,7 +31,7 @@ public:
 	void operator() (string htmlname, string xmlfile, string xslfile);
 	void operator() (string htmlname, string xmlfile) { operator()(htmlname, xmlfile, xslfile); };
 	void xalan (string htmlname, string xmlfile, string xslfile) { cout << "Using xalan!" << endl; };
-#ifdef _Win32
+#ifdef _WIN32
 	void msxsl (string htmlname, string xmlfile, string xslfile) { cout << "Using msxsl!" << endl; };
 #endif
 	//
