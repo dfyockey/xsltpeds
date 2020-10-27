@@ -21,18 +21,20 @@ using namespace std;
 class SystemXsltProcessor {
 	//
 private:
-	typedef void (SystemXsltProcessor::*xsltproc_fptr) (string htmlname, string xmlfile, string xslfile);
+	typedef void (SystemXsltProcessor::*xsltproc_fptr) (string xmlfile, string xslfile, string htmlname);
 	xsltproc_fptr xsltproc;
 	string xslfile;
 	bool exists(string f) { ifstream file(f); return file.good(); };
 	//
 public:
 	SystemXsltProcessor ();
-	void operator() (string htmlname, string xmlfile, string xslfile);
-	void operator() (string htmlname, string xmlfile) { operator()(htmlname, xmlfile, xslfile); };
-	void xalan (string htmlname, string xmlfile, string xslfile) { cout << "Using xalan!" << endl; };
+	void operator() (string xmlfile, string xslfile, string htmlname);
+	void operator() (string xmlfile, string htmlname) { operator()(xmlfile, xslfile, htmlname); };
+#ifdef __linux__
+	void xalan (string xmlfile, string xslfile, string htmlname);
+#endif
 #ifdef _WIN32
-	void msxsl (string htmlname, string xmlfile, string xslfile) { cout << "Using msxsl!" << endl; };
+	void msxsl (string xmlfile, string xslfile, string htmlname);
 #endif
 	//
 };
