@@ -28,10 +28,6 @@ SystemXsltProcessor::SystemXsltProcessor () {
 void SystemXsltProcessor::operator() (string xmlfile, string xslfile, string htmlname) {
 	assert(xsltproc);
 
-	// Save xslfile for use in transforming multiple xml files in a PEDS zip file
-	this->xslfile = xslfile;
-
-	//if ( !xmlfile.empty() && !xslfile.empty() && !htmlname.empty() )
 	if ( exists(xmlfile) && exists(xslfile) && !htmlname.empty() )
 		(this->*xsltproc)( xmlfile, xslfile, htmlname );
 	else {

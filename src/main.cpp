@@ -5,14 +5,15 @@
  *      Author: David Yockey
  */
 
-#include "SystemXsltProcessor.hpp"
+#include "PedsXsltProcessor.hpp"
 
 int main () {
 	try {
 
-		SystemXsltProcessor sysXsltProc = SystemXsltProcessor();
+		PedsXsltProcessor pedsXsltProc;
 
-		sysXsltProc("1996-1998.xml", "peds.xsl", "result.html");
+		pedsXsltProc("1996-1998.xml", "Result1.html");
+		pedsXsltProc("pairbulk-20200825-163450.xml", "Result2.html");
 
 	} catch (system_exception &e) {
 		cerr << "No XSLT processor found.\nPlease install Xalan (for Linux) or MSXSL (for Windows)." << endl;

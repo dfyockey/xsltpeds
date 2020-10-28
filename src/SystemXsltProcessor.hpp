@@ -23,13 +23,11 @@ class SystemXsltProcessor {
 private:
 	typedef void (SystemXsltProcessor::*xsltproc_fptr) (string xmlfile, string xslfile, string htmlname);
 	xsltproc_fptr xsltproc;
-	string xslfile;
 	bool exists(string f) { ifstream file(f); return file.good(); };
 	//
 public:
 	SystemXsltProcessor ();
 	void operator() (string xmlfile, string xslfile, string htmlname);
-	void operator() (string xmlfile, string htmlname) { operator()(xmlfile, xslfile, htmlname); };
 #ifdef __linux__
 	void xalan (string xmlfile, string xslfile, string htmlname);
 #endif
@@ -38,6 +36,5 @@ public:
 #endif
 	//
 };
-
 
 #endif /* SYSTEMXSLTPROCESSOR_HPP_ */
