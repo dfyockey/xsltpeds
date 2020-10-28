@@ -8,13 +8,14 @@
 #include "SystemXsltProcessor.hpp"
 
 SystemXsltProcessor::SystemXsltProcessor () {
-	// Check for Xalan in both Linux and Windows to support use of Cygwin
+#ifdef __linux__
 	if ( exists("/usr/bin/Xalan") ) {
 		xsltproc = &SystemXsltProcessor::xalan;
 		cout << "Xalan found!" << endl;
 	}
+#endif
 #ifdef _WIN32
-	else if ( exists( string(getenv("windir")) + "\\msxsl.exe" ) ) {
+	if ( exists( string(getenv("windir")) + "\\msxsl.exe" ) ) {
 			xsltproc = &SystemXsltProcessor::msxsl;
 			cout << "MSXSL found!" << endl;
 	}
@@ -24,14 +25,35 @@ SystemXsltProcessor::SystemXsltProcessor () {
 	}
 }
 
-void SystemXsltProcessor::operator() (string htmlname, string xmlfile, string xslfile) {
+void SystemXsltProcessor::operator() (string xmlfile, string xslfile, string htmlname) {
 	assert(xsltproc);
 
-	this->xslfile = xslfile;
-
-	if ( !htmlname.empty() && !xmlfile.empty() && !xslfile.empty() )
-		(this->*xsltproc)( htmlname, xmlfile, xslfile );
+	if ( exists(xmlfile) && exists(xslfile) && !htmlname.empty() )
+		(this->*xsltproc)( xmlfile, xslfile, htmlname );
 	else {
-		throw missing_argument("SystemXsltProcessor", {htmlname, xmlfile, xslfile});
+		if ( !exists(xmlfile) ) xmlfile.clear();
+		if ( !exists(xslfile) ) xslfile.clear();
+		throw argument_error("SystemXsltProcessor", {htmlname, xmlfile, xslfile});
 	}
 }
+
+/*
+ * Redundancy in the following implementations makes for an uncluttered
+ * call in operator() and encapsulation of potentially different syntax
+ * in any future implementations (e.g. Saxon) or any changes in the
+ * existing processors' syntax.
+ */
+
+#ifdef __linux__
+void SystemXsltProcessor::xalan (string xmlfile, string xslfile, string htmlname) {
+	string cmd = string("Xalan -o '") + htmlname + "' '" + xmlfile + "' '" + xslfile + "'";
+	system(cmd.c_str());
+}
+#endif
+
+#ifdef _WIN32
+void SystemXsltProcessor::msxsl (string xmlfile, string xslfile, string htmlname) {
+	string cmd = string("msxsl.exe -o '") + htmlname + "' '" + xmlfile + "' '" + xslfile + "'";
+	system(cmd.c_str());
+}
+#endif

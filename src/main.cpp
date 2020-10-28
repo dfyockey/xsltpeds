@@ -5,22 +5,23 @@
  *      Author: David Yockey
  */
 
-#include "SystemXsltProcessor.hpp"
+#include "PedsXsltProcessor.hpp"
 
 int main () {
 	try {
 
-		SystemXsltProcessor sysXsltProc = SystemXsltProcessor();
+		PedsXsltProcessor pedsXsltProc;
 
-		sysXsltProc("a", "b", "c");
+		pedsXsltProc("1996-1998.xml", "Result1.html");
+		pedsXsltProc("pairbulk-20200825-163450.xml", "Result2.html");
 
 	} catch (system_exception &e) {
 		cerr << "No XSLT processor found.\nPlease install Xalan (for Linux) or MSXSL (for Windows)." << endl;
-	} catch (missing_argument &args) {
+	} catch (argument_error &args) {
 		string msg = string("Errors in ") + args.what() + " :\n";
-		if ( args(0).empty() ) msg += "\tMissing filename for output Html file.\n";
-		if ( args(1).empty() ) msg += "\tMissing filename of Xml file to be transformed to Html.\n";
-		if ( args(2).empty() ) msg += "\tMissing filename of Xsl transformation file.\n";
+		if ( args(0).empty() ) msg += "\tMissing filename for output HTML file.\n";
+		if ( args(1).empty() ) msg += "\tXML file to be transformed not found.\n";
+		if ( args(2).empty() ) msg += "\tXSL transformation file not found.\n";
 		cerr << msg;
 	}
 }
