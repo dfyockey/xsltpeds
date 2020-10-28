@@ -4,14 +4,20 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
+../src/PedsXmlCollectionProcessor.cpp \
+../src/PedsXsltProcessor.cpp \
 ../src/SystemXsltProcessor.cpp \
 ../src/main.cpp 
 
 OBJS += \
+./src/PedsXmlCollectionProcessor.o \
+./src/PedsXsltProcessor.o \
 ./src/SystemXsltProcessor.o \
 ./src/main.o 
 
 CPP_DEPS += \
+./src/PedsXmlCollectionProcessor.d \
+./src/PedsXsltProcessor.d \
 ./src/SystemXsltProcessor.d \
 ./src/main.d 
 

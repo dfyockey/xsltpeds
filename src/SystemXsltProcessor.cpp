@@ -21,7 +21,7 @@ SystemXsltProcessor::SystemXsltProcessor () {
 	}
 #endif
 	else {
-		throw system_exception("SystemXsltProcessor");
+		throw system_exception("SystemXsltProcessor::SystemXsltProcessor");
 	}
 }
 
@@ -33,7 +33,7 @@ void SystemXsltProcessor::operator() (string xmlfile, string xslfile, string htm
 	else {
 		if ( !exists(xmlfile) ) xmlfile.clear();
 		if ( !exists(xslfile) ) xslfile.clear();
-		throw argument_error("SystemXsltProcessor", {htmlname, xmlfile, xslfile});
+		throw argument_error("SystemXsltProcessor::operator()", {htmlname, xmlfile, xslfile});
 	}
 }
 
