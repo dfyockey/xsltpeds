@@ -44,7 +44,7 @@ all: xsltpeds
 xsltpeds: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C++ Linker'
-	g++  -o "xsltpeds" $(OBJS) $(USER_OBJS) $(LIBS)
+	g++ -L/usr/lib64/ -o "xsltpeds" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 

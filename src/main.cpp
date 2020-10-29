@@ -5,7 +5,6 @@
  *      Author: David Yockey
  */
 
-#include "PedsXsltProcessor.hpp"
 #include "PedsXmlCollectionProcessor.hpp"
 
 int main () {
@@ -21,18 +20,14 @@ int main () {
 	} catch (system_exception &e) {
 
 		string msg;
+		string loc(e.what());
 
-		switch (e.what()) {
-		case "SystemXsltProcessor::SystemXsltProcessor":
+		if (loc == "SystemXsltProcessor::SystemXsltProcessor")
 			msg = "No XSLT processor found.\nPlease install Xalan (for Linux) or MSXSL (for Windows).";
-			break;
-		case "PedsXmlCollectionProcessor::PedsXmlCollectionProcessor":
+		else if (loc == "PedsXmlCollectionProcessor::PedsXmlCollectionProcessor")
 			msg = "Unable to generate a unique identifier for generated files due to a system error.";
-			break;
-		default:
+		else
 			msg = "Unknown system error!";
-			break;
-		}
 
 		cerr << msg << endl;
 

@@ -8,18 +8,19 @@
 #ifndef PEDSXMLCOLLECTIONPROCESSOR_HPP_
 #define PEDSXMLCOLLECTIONPROCESSOR_HPP_
 
-#include <ctime>
 #include <string>
+#include "PedsXsltProcessor.hpp"
+
 using namespace std;
 
-class PedsXmlCollectionProcessor {
+class PedsXmlCollectionProcessor : PedsXsltProcessor {
 	//
 private:
 	string datestamp;
+	string newdir;
 	//
 public:
-	PedsXmlCollectionProcessor();
+	PedsXmlCollectionProcessor ();
 };
-
 
 #endif /* PEDSXMLCOLLECTIONPROCESSOR_HPP_ */
