@@ -27,7 +27,7 @@ private:
 	//
 public:
 	SystemXsltProcessor ();
-	void operator() (string xmlfile, string xslfile, string htmlname);
+	void transform (string xmlfile, string xslfile, string htmlname);
 #ifdef __linux__
 	void xalan (string xmlfile, string xslfile, string htmlname);
 #endif

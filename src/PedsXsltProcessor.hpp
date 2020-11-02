@@ -18,8 +18,8 @@ public:
 	PedsXsltProcessor () : SystemXsltProcessor(), xslpedsfile("peds.xsl") {};
 	PedsXsltProcessor (string xslfile) : SystemXsltProcessor(), xslpedsfile(xslfile) {};
 
-	void operator() (string xmlfile, string xslfile, string htmlname);
-	void operator() (string xmlfile, string htmlname) { SystemXsltProcessor::operator()(xmlfile, xslpedsfile, htmlname); };
+	void transform (string xmlfile, string xslfile, string htmlname);
+	void transform (string xmlfile, string htmlname) { SystemXsltProcessor::transform(xmlfile, xslpedsfile, htmlname); };
 };
 
 #endif /* PEDSXSLTPROCESSOR_HPP_ */

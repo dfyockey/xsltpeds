@@ -11,15 +11,43 @@
 #include "PedsXmlCollectionProcessor.hpp"
 #include "exceptions.hpp"
 
-PedsXmlCollectionProcessor::PedsXmlCollectionProcessor () : PedsXsltProcessor () {
+namespace bfs = boost::filesystem;
+
+PedsXmlCollectionProcessor::PedsXmlCollectionProcessor () {
 	time_t t = time(0);
 	char ds[256];	// Unmanaged buffer to receive the datestamp output of strftime. Dangerous stuff. Yuck.
 
 	if (strftime(ds, sizeof(ds), "%Y%m%d-%H%M%S", localtime(&t))) {
 		datestamp = ds;
 		newdir = string("pairbulk-") + datestamp;
-		boost::filesystem::create_directory(newdir);
+		bfs::create_directory(newdir);
 	} else {
 		throw system_exception("PedsXmlCollectionProcessor::PedsXmlCollectionProcessor");
+	}
+
+	collproc = 0;
+}
+
+void PedsXmlCollectionProcessor::process (string collectiondir, xsltranstype xtt) {
+	switch (xtt) {
+	case all:
+		collproc = &proca;
+		break;
+	case folder:
+		//collproc = &procf;
+		break;
+	case one:
+		//collproc = &proco;
+		break;
+	}
+
+	bfs::directory_iterator dirIndex(collectiondir);	// Initially set as Start
+	bfs::directory_iterator dirEnd;
+
+	for ( /*nop*/; dirIndex != dirEnd; ++dirIndex ) {
+		bfs::path p = dirIndex->path();
+		if (p.extension() == ".xml") {
+			collproc->proc(datestamp, p.filename().string(), newdir);
+		}
 	}
 }

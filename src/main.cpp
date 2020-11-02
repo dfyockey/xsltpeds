@@ -15,7 +15,8 @@ int main () {
 		//pedsXsltProc("1996-1998.xml", "Result1.html");
 		//pedsXsltProc("pairbulk-20200825-163450.xml", "Result2.html");
 
-		PedsXmlCollectionProcessor pedsXmlCollProc;
+		PedsXmlCollectionProcessor procPedsXmlCollection;
+		procPedsXmlCollection.process(".", all);
 
 	} catch (system_exception &e) {
 

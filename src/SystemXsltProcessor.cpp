@@ -25,7 +25,7 @@ SystemXsltProcessor::SystemXsltProcessor () {
 	}
 }
 
-void SystemXsltProcessor::operator() (string xmlfile, string xslfile, string htmlname) {
+void SystemXsltProcessor::transform(string xmlfile, string xslfile, string htmlname) {
 	assert(xsltproc);
 
 	if ( exists(xmlfile) && exists(xslfile) && !htmlname.empty() )
@@ -33,7 +33,7 @@ void SystemXsltProcessor::operator() (string xmlfile, string xslfile, string htm
 	else {
 		if ( !exists(xmlfile) ) xmlfile.clear();
 		if ( !exists(xslfile) ) xslfile.clear();
-		throw argument_error("SystemXsltProcessor::operator()", {htmlname, xmlfile, xslfile});
+		throw argument_error("SystemXsltProcessor::transform()", {htmlname, xmlfile, xslfile});
 	}
 }
 

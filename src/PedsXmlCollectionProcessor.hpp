@@ -9,18 +9,28 @@
 #define PEDSXMLCOLLECTIONPROCESSOR_HPP_
 
 #include <string>
-#include "PedsXsltProcessor.hpp"
+#include "Proca.hpp"
 
 using namespace std;
 
-class PedsXmlCollectionProcessor : PedsXsltProcessor {
-	//
+enum xsltranstype {all, folder, one};
+
+
+class PedsXmlCollectionProcessor {
+//
 private:
 	string datestamp;
 	string newdir;
-	//
+
+	CollectionProcessor *collproc;
+	Proca proca;
+	//Procf procf;
+	//Proco proco;
+//
 public:
 	PedsXmlCollectionProcessor ();
+	void process(string collectiondir, xsltranstype xtt);
+//
 };
 
 #endif /* PEDSXMLCOLLECTIONPROCESSOR_HPP_ */
