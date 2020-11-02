@@ -21,6 +21,7 @@ class PedsXmlCollectionProcessor {
 private:
 	string datestamp;
 	string newdir;
+	void generate_datestamp ();
 
 	CollectionProcessor *collproc;
 	Proca proca;

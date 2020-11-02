@@ -25,7 +25,7 @@ int main () {
 
 		if (loc == "SystemXsltProcessor::SystemXsltProcessor")
 			msg = "No XSLT processor found.\nPlease install Xalan (for Linux) or MSXSL (for Windows).";
-		else if (loc == "PedsXmlCollectionProcessor::PedsXmlCollectionProcessor")
+		else if (loc == "PedsXmlCollectionProcessor::generate_datestamp")
 			msg = "Unable to generate a unique identifier for generated files due to a system error.";
 		else
 			msg = "Unknown system error!";

@@ -14,21 +14,15 @@
 namespace bfs = boost::filesystem;
 
 PedsXmlCollectionProcessor::PedsXmlCollectionProcessor () {
-	time_t t = time(0);
-	char ds[256];	// Unmanaged buffer to receive the datestamp output of strftime. Dangerous stuff. Yuck.
-
-	if (strftime(ds, sizeof(ds), "%Y%m%d-%H%M%S", localtime(&t))) {
-		datestamp = ds;
-		newdir = string("pairbulk-") + datestamp;
-		bfs::create_directory(newdir);
-	} else {
-		throw system_exception("PedsXmlCollectionProcessor::PedsXmlCollectionProcessor");
-	}
-
 	collproc = 0;
 }
 
 void PedsXmlCollectionProcessor::process (string collectiondir, xsltranstype xtt) {
+
+	generate_datestamp();
+	newdir = string("pairbulk-") + datestamp;
+	bfs::create_directory(newdir);
+
 	switch (xtt) {
 	case all:
 		collproc = &proca;
@@ -50,4 +44,14 @@ void PedsXmlCollectionProcessor::process (string collectiondir, xsltranstype xtt
 			collproc->proc(datestamp, p.filename().string(), newdir);
 		}
 	}
+}
+
+void PedsXmlCollectionProcessor::generate_datestamp () {
+	time_t t = time(0);
+	char ds[256];	// Unmanaged buffer to receive the datestamp output of strftime. Dangerous stuff. Yuck.
+
+	if (strftime(ds, sizeof(ds), "%Y%m%d-%H%M%S", localtime(&t)))
+		datestamp = ds;
+	else
+		throw system_exception("PedsXmlCollectionProcessor::generate_datestamp");
 }
