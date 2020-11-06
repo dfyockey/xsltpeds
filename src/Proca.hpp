@@ -8,19 +8,13 @@
 #ifndef PROCA_HPP_
 #define PROCA_HPP_
 
-#include <boost/filesystem.hpp>
-#include <string>
 #include "CollectionProcessor.hpp"
-
-namespace bfs = boost::filesystem;
 
 class Proca : public CollectionProcessor {
 public:
-	void init(){}
-	void proc(string datestamp, string xmlfilepath, string newdir);
-	void fint();
-private:
-	string newdir;
+	Proca (string datestamp) : CollectionProcessor (datestamp) {};
+	void proc(bfs::path xmlfilepath);
+	void fnit();
 };
 
 #endif /* PROCA_HPP_ */

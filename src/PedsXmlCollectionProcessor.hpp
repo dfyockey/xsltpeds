@@ -8,8 +8,7 @@
 #ifndef PEDSXMLCOLLECTIONPROCESSOR_HPP_
 #define PEDSXMLCOLLECTIONPROCESSOR_HPP_
 
-#include <string>
-#include "Proca.hpp"
+#include "CollectionProcessor.hpp"
 
 using namespace std;
 
@@ -24,7 +23,8 @@ private:
 	void generate_datestamp ();
 
 	CollectionProcessor *collproc;
-	Proca proca;
+
+	//Proca proca;
 	//Procf procf;
 	//Proco proco;
 //

@@ -11,6 +11,11 @@
 #include "PedsXmlCollectionProcessor.hpp"
 #include "exceptions.hpp"
 
+#include <string>
+#include "Proca.hpp"
+#include "Procf.hpp"
+#include "Proco.hpp"
+
 namespace bfs = boost::filesystem;
 
 PedsXmlCollectionProcessor::PedsXmlCollectionProcessor () {
@@ -19,21 +24,26 @@ PedsXmlCollectionProcessor::PedsXmlCollectionProcessor () {
 
 void PedsXmlCollectionProcessor::process (string collectiondir, xsltranstype xtt) {
 
+	/*
+	 * WARNING! Objects proca and proco used in this method automatically
+	 *          remove the collectiondir directory in their fnit() methods!
+	 */
+
 	generate_datestamp();
-	newdir = string("pairbulk-") + datestamp;
-	bfs::create_directory(newdir);
 
 	switch (xtt) {
 	case all:
-		collproc = &proca;
+		collproc = new Proca(datestamp); //&proca;
 		break;
 	case folder:
-		//collproc = &procf;
+		collproc = new Procf(datestamp); //&procf;
 		break;
 	case one:
-		//collproc = &proco;
+		collproc = new Proco(datestamp); //&proco;
 		break;
 	}
+
+	collproc->init(collectiondir);
 
 	bfs::directory_iterator dirIndex(collectiondir);	// Initially set as Start
 	bfs::directory_iterator dirEnd;
@@ -41,9 +51,14 @@ void PedsXmlCollectionProcessor::process (string collectiondir, xsltranstype xtt
 	for ( /*nop*/; dirIndex != dirEnd; ++dirIndex ) {
 		bfs::path p = dirIndex->path();
 		if (p.extension() == ".xml") {
-			collproc->proc(datestamp, p.filename().string(), newdir);
+			collproc->proc(p);
 		}
 	}
+
+	collproc->fnit();
+
+	delete collproc;
+	collproc = 0;
 }
 
 void PedsXmlCollectionProcessor::generate_datestamp () {

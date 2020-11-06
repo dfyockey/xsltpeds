@@ -7,12 +7,11 @@
 
 #include "Proca.hpp"
 
-void Proca::proc (string datestamp, string xmlfilepath, string newdir) {
-	this->newdir = newdir;
-	string htmlname = xmlfilepath + "-" + datestamp + ".peds.htm";
-	transform(xmlfilepath, htmlname);
+void Proca::proc (bfs::path xmlfilepath) {
+	string htmlname = xmlfilepath.stem().string() + "-" + datestamp + ".peds.htm";
+	transform(xmlfilepath.string(), htmlname);
 }
 
-void Proca::fint () {
-	bfs::remove(newdir);
+void Proca::fnit () {
+	bfs::remove_all(collectiondir);
 }
