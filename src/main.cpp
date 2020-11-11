@@ -40,7 +40,15 @@ int main () {
 		if ( args(1).empty() ) msg += "\tXML file to be transformed not found.\n";
 		if ( args(2).empty() ) msg += "\tXSL transformation file not found.\n";
 
-		cerr << msg;
+		cerr << msg << endl;
+
+	} catch (file_not_opened &e) {
+
+		cerr << "Unable to open file " << e.filename() << endl;
+
+	} catch (files_not_saved &e) {
+
+		cerr << "Unable to save one or more unzipped files from " << e.filename() << endl;
 
 	}
 }
