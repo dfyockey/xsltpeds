@@ -17,8 +17,6 @@ extern int xmlLoadExtDtdDefaultValue;
 #include <string>
 using namespace std;
 
-typedef basic_string<xmlChar> xmlChar_string;
-
 class SystemXsltProcessor {
 	//
 private:
@@ -26,7 +24,7 @@ private:
 	//
 public:
 	SystemXsltProcessor () { xmlLoadExtDtdDefaultValue = 1; };
-	void transform (string xmlfile, xmlChar_string xslfile, string htmlname);
+	void transform (string xmlfile, string xslfile, string htmlname);
 };
 
 #endif /* SYSTEMXSLTPROCESSOR_HPP_ */

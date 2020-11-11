@@ -13,12 +13,12 @@
 class PedsXsltProcessor : public SystemXsltProcessor {
 	//
 private:
-	xmlChar_string xslpedsfile;
+	string xslpedsfile;
 public:
-	PedsXsltProcessor () : SystemXsltProcessor(), xslpedsfile(xmlCharStrdup("peds.xsl")) { };
-	PedsXsltProcessor (xmlChar_string xslfile) : SystemXsltProcessor(), xslpedsfile(xslfile) {};
+	PedsXsltProcessor () : SystemXsltProcessor(), xslpedsfile("peds.xsl") { };
+	PedsXsltProcessor (string xslfile) : SystemXsltProcessor(), xslpedsfile(xslfile) {};
 
-	void transform (string xmlfile, xmlChar_string xslfile, string htmlname);
+	void transform (string xmlfile, string xslfile, string htmlname);
 	void transform (string xmlfile, string htmlname) { SystemXsltProcessor::transform(xmlfile, xslpedsfile, htmlname); };
 };
 
