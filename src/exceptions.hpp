@@ -36,10 +36,12 @@ private:
 };
 
 class file_not_opened : public file_error {
+public:
 	file_not_opened (const string& exceptLoc, string filename) : file_error(exceptLoc, filename) {};
 };
 
 class files_not_saved : public file_error {
+public:
 	files_not_saved (const string& exceptLoc, string filename) : file_error(exceptLoc, filename) {};
 };
 

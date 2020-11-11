@@ -6,6 +6,7 @@
  */
 
 #include "PedsXmlCollectionProcessor.hpp"
+#include "ZipfileExpander.hpp"
 
 int main () {
 	try {
@@ -15,8 +16,11 @@ int main () {
 		//pedsXsltProc("1996-1998.xml", "Result1.html");
 		//pedsXsltProc("pairbulk-20200825-163450.xml", "Result2.html");
 
-		PedsXmlCollectionProcessor procPedsXmlCollection;
-		procPedsXmlCollection.process(".", all);
+		//PedsXmlCollectionProcessor procPedsXmlCollection;
+		//procPedsXmlCollection.process(".", all);
+
+		ZipfileExpander zipfileExpander;
+		zipfileExpander.process("pairbulk-custom-dcbc7c92-9aa5-45ef-b593-0521fc006720-xml.zip", "test");
 
 	} catch (system_exception &e) {
 
