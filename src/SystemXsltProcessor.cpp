@@ -33,7 +33,7 @@ void SystemXsltProcessor::transform(string xmlfile, string xslfile, string htmln
 	else {
 		if ( !exists(xmlfile) ) xmlfile.clear();
 		if ( !exists(xslfile) ) xslfile.clear();
-		throw argument_error("SystemXsltProcessor::transform()", {htmlname, xmlfile, xslfile});
+		throw file_not_found("SystemXsltProcessor::transform()", {htmlname, xmlfile, xslfile});
 	}
 }
 
