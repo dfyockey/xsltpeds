@@ -5,55 +5,28 @@
  *      Author: David Yockey
  */
 
+#include "libxml2/libxml/xmlstring.h"
 #include "SystemXsltProcessor.hpp"
-
-SystemXsltProcessor::SystemXsltProcessor () {
-#ifdef __linux__
-	if ( exists("/usr/bin/Xalan") ) {
-		xsltproc = &SystemXsltProcessor::xalan;
-		cout << "Xalan found!" << endl;
-	}
-#endif
-#ifdef _WIN32
-	if ( exists( string(getenv("windir")) + "\\msxsl.exe" ) ) {
-			xsltproc = &SystemXsltProcessor::msxsl;
-			cout << "MSXSL found!" << endl;
-	}
-#endif
-	else {
-		throw system_exception("SystemXsltProcessor::SystemXsltProcessor");
-	}
-}
-
-void SystemXsltProcessor::transform(string xmlfile, string xslfile, string htmlname) {
-	assert(xsltproc);
-
-	if ( exists(xmlfile) && exists(xslfile) && !htmlname.empty() )
-		(this->*xsltproc)( xmlfile, xslfile, htmlname );
-	else {
-		if ( !exists(xmlfile) ) xmlfile.clear();
-		if ( !exists(xslfile) ) xslfile.clear();
-		throw argument_error("SystemXsltProcessor::transform()", {htmlname, xmlfile, xslfile});
-	}
-}
+#include "exceptions.hpp"
 
 /*
- * Redundancy in the following implementations makes for an uncluttered
- * call in operator() and encapsulation of potentially different syntax
- * in any future implementations (e.g. Saxon) or any changes in the
- * existing processors' syntax.
+ * All the casts in the following are regrettable but expedient, and are at least safer and
+ * more evident than the plain C-style casts libxml2 uses internally to get from xmlChar* to char*.
  */
 
-#ifdef __linux__
-void SystemXsltProcessor::xalan (string xmlfile, string xslfile, string htmlname) {
-	string cmd = string("Xalan -o '") + htmlname + "' '" + xmlfile + "' '" + xslfile + "'";
-	system(cmd.c_str());
-}
-#endif
+void SystemXsltProcessor::transform(string xmlfile, xmlChar_string xslfile, string htmlname) {
 
-#ifdef _WIN32
-void SystemXsltProcessor::msxsl (string xmlfile, string xslfile, string htmlname) {
-	string cmd = string("msxsl.exe -o '") + htmlname + "' '" + xmlfile + "' '" + xslfile + "'";
-	system(cmd.c_str());
+	if ( exists(xmlfile) && exists(reinterpret_cast<char*>(const_cast<xmlChar*>(xslfile.c_str()))) && !htmlname.empty() ) {
+		xsltStylesheetPtr pParsedXsltStylesheet = xsltParseStylesheetFile (xslfile.c_str());
+		xmlDocPtr pParsedXmlFile = xmlParseFile(xmlfile.c_str());
+		xmlDocPtr pHtmlDoc = xsltApplyStylesheet(pParsedXsltStylesheet, pParsedXmlFile, 0);
+		xsltSaveResultToFilename(htmlname.c_str(), pHtmlDoc, pParsedXsltStylesheet, 0);
+	}
+	else {
+		// Clear files to indicate which, if any, were not found...
+		if ( !exists(xmlfile) ) xmlfile.clear();
+		if ( !exists(reinterpret_cast<char*>(const_cast<xmlChar*>(xslfile.c_str()))) ) xslfile.clear();
+		throw argument_error("SystemXsltProcessor::transform()", {htmlname, xmlfile, reinterpret_cast<char*>(const_cast<xmlChar*>(xslfile.c_str()))});
+	}
+
 }
-#endif

@@ -5,6 +5,8 @@
  *      Author: David Yockey
  */
 
+#include <iostream>
+#include "exceptions.hpp"
 #include "PedsXmlCollectionProcessor.hpp"
 
 int main () {
@@ -16,7 +18,7 @@ int main () {
 		//pedsXsltProc("pairbulk-20200825-163450.xml", "Result2.html");
 
 		PedsXmlCollectionProcessor procPedsXmlCollection;
-		procPedsXmlCollection.process(".", all);
+		procPedsXmlCollection.process("testdir", one);
 
 	} catch (system_exception &e) {
 
