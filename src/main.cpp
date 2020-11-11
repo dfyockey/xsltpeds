@@ -32,7 +32,7 @@ int main () {
 
 		cerr << msg << endl;
 
-	} catch (argument_error &args) {
+	} catch (file_not_found &args) {
 
 		string msg = string("Errors in ") + args.what() + " :\n";
 
