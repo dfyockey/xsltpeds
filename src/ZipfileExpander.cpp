@@ -28,12 +28,11 @@ bool ZipfileExpander::isZipfile (string filename) {
 
 	ifstream f1(filename);
 
-	int count = 0;
 	for (array<int, 4>::iterator i = filesig.begin(); i != filesig.end(); ++i)
-		if ( *i == f1.get() )
-			++count;
+		if ( *i != f1.get() )
+			return false;
 
-	return ( count == 4 );
+	return true;
 }
 
 string ZipfileExpander::process (string zipfile, string datestamp) {
