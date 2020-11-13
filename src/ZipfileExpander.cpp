@@ -21,18 +21,13 @@ namespace bfs = boost::filesystem;
 using namespace std;
 
 bool ZipfileExpander::isZipfile (string filename) {
-	// Zip file signature = hex numbers for P, Y, ETX, and EOT
-	// - Noted at https://en.wikipedia.org/wiki/List_of_file_signatures
-	//   and verified by examining existing zip files with a hex editor.
-	array<int, 4> filesig = {0x50, 0x4B, 0x03, 0x04};
-
 	ifstream f1(filename);
+	string filesig(4,'\0');	// construct string to receive filesig from f1
 
-	for (array<int, 4>::iterator i = filesig.begin(); i != filesig.end(); ++i)
-		if ( *i != f1.get() )
-			return false;
+	f1.read(&filesig[0],4);
 
-	return true;
+	// Zip file signature is combination of ASCII codes for P, Y, ETX, and EOT
+	return ( f1.gcount() >= 4 && filesig == "\x50\x4B\x03\x04" );
 }
 
 string ZipfileExpander::process (string zipfile, string datestamp) {
