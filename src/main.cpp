@@ -20,7 +20,13 @@ int main () {
 		//procPedsXmlCollection.process(".", all);
 
 		ZipfileExpander zipfileExpander;
-		zipfileExpander.process("pairbulk-custom-dcbc7c92-9aa5-45ef-b593-0521fc006720-xml.zip", "test");
+		cout << zipfileExpander.isZipfile("LICENSE.txt") << endl;
+		cout << zipfileExpander.isZipfile("pairbulk-custom-dcbc7c92-9aa5-45ef-b593-0521fc006720-xml.zip") << endl;
+		cout << zipfileExpander.isZipfile("peds.xsl") << endl;
+		cout << zipfileExpander.isZipfile("README.md") << endl;
+
+		//zipfileExpander.process("pairbulk-custom-dcbc7c92-9aa5-45ef-b593-0521fc006720-xml.zip", "test");
+
 
 	} catch (system_exception &e) {
 
