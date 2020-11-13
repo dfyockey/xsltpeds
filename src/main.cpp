@@ -6,7 +6,7 @@
  */
 
 #include "PedsXmlCollectionProcessor.hpp"
-#include "ZipfileExpander.hpp"
+#include "ZipfileProcessor.hpp"
 
 int main () {
 	try {
@@ -19,13 +19,17 @@ int main () {
 		//PedsXmlCollectionProcessor procPedsXmlCollection;
 		//procPedsXmlCollection.process(".", all);
 
+/*
 		ZipfileExpander zipfileExpander;
 		cout << zipfileExpander.isZipfile("LICENSE.txt") << endl;
 		cout << zipfileExpander.isZipfile("pairbulk-custom-dcbc7c92-9aa5-45ef-b593-0521fc006720-xml.zip") << endl;
 		cout << zipfileExpander.isZipfile("peds.xsl") << endl;
 		cout << zipfileExpander.isZipfile("README.md") << endl;
+*/
 
 		//zipfileExpander.process("pairbulk-custom-dcbc7c92-9aa5-45ef-b593-0521fc006720-xml.zip", "test");
+
+		PedsXmlZipfileProcessor ("testdir", "datestamp");
 
 
 	} catch (system_exception &e) {
@@ -60,6 +64,9 @@ int main () {
 
 		cerr << "Unable to save one or more unzipped files from " << e.filename() << endl;
 
+	} catch (file_not_found &e) {
+		if (e.what() == "PedsXmlZipfileProcessor::procLatestZipfile" )
+			cerr << "No zip file found in directory " << e(0) << endl;
 	}
 }
 
