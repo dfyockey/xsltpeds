@@ -49,9 +49,13 @@ class file_not_found : public file_error {
 private:
 	vector<string> args;
 public:
-	file_not_found (const string& exceptLoc, initializer_list<string> l) : invalid_argument(exceptLoc), args(l) {};
+	file_not_found (const string& exceptLoc, initializer_list<string> l) : file_error(exceptLoc, *(l.begin()) ), args(l) {};
 	string& operator()(int i) { return args[i]; };
 };
 
+class directory_error : public file_error {
+public:
+	directory_error (const string& exceptLoc, string filename) : file_error(exceptLoc, filename) {};
+};
 
 #endif /* EXCEPTIONS_HPP_ */

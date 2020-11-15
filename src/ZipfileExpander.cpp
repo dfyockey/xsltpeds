@@ -31,8 +31,12 @@ bool ZipfileExpander::isZipfile (string filename) {
 }
 
 string ZipfileExpander::process (string zipfile, string datestamp) {
+	if (!bfs::exists(zipfile))
+		throw file_not_found("ZipfileExpander::expand", {zipfile});
+
 	string newdir = string("pairbulk-") + datestamp;
-	bfs::create_directory(newdir);
+	if ( !bfs::create_directory(newdir) )
+		throw directory_error("ZipfileExpander::process", newdir);
 
 	expand(zipfile, newdir);
 
@@ -43,12 +47,26 @@ void ZipfileExpander::expand(string zipfile, string targetdir) {
 	void *zip_reader = 0;
 	mz_zip_reader_create(&zip_reader);
 
-	if (mz_zip_reader_open_file(zip_reader, zipfile.c_str()) != MZ_OK)
-		throw file_not_opened("ZipfileExpander::expand", zipfile);
+	try {
 
-	bfs::path destination_dir(targetdir);
-	if (mz_zip_reader_save_all(zip_reader, destination_dir.string().c_str()) != MZ_OK)
-		throw files_not_saved("ZipfileExpander::expand", zipfile);
+		if (mz_zip_reader_open_file(zip_reader, zipfile.c_str()) != MZ_OK)
+			throw file_not_opened("ZipfileExpander::expand", zipfile);
+
+		bfs::path destination_dir(targetdir);
+		if (mz_zip_reader_save_all(zip_reader, destination_dir.string().c_str()) != MZ_OK)
+			throw files_not_saved("ZipfileExpander::expand", zipfile);
+
+	} catch (...) {
+
+		if (bfs::exists(targetdir))
+			bfs::remove_all(targetdir);
+
+		mz_zip_reader_close(zip_reader);
+		mz_zip_reader_delete(&zip_reader);
+
+		throw;
+
+	}
 
     mz_zip_reader_close(zip_reader);
 	mz_zip_reader_delete(&zip_reader);

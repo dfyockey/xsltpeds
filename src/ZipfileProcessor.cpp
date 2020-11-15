@@ -14,11 +14,11 @@
 
 namespace bfs = boost::filesystem;
 
-void PedsXmlZipfileProcessor::procLatestZipfile (string dir, string datestamp) {
+string ZipfileProcessor::procLatestZipfile (string dir, string datestamp) {
 
 	string linebuf(4096,'\0');	// construct string to receive a filename from f1
 
-	bfs::directory_iterator dirIndex(dir);	// Initially set as Start
+	bfs::directory_iterator dirIndex(dir);	// Initially set at directory Start
 	bfs::directory_iterator dirEnd;
 
 	time_t latest = 0;
@@ -36,7 +36,11 @@ void PedsXmlZipfileProcessor::procLatestZipfile (string dir, string datestamp) {
 	}
 
 	if ( latest > 0 )
-		process(latestZipfile.string(), datestamp);
+		return process(latestZipfile.string(), datestamp);
 	else
-		throw file_not_found("PedsXmlZipfileProcessor::procLatestZipfile", {dir});
+		throw file_not_found("ZipfileProcessor::procLatestZipfile", {dir});
+}
+
+string ZipfileProcessor::procZipfile (string zipfile, string datestamp) {
+	return process(zipfile, datestamp);
 }

@@ -29,7 +29,9 @@ int main () {
 
 		//zipfileExpander.process("pairbulk-custom-dcbc7c92-9aa5-45ef-b593-0521fc006720-xml.zip", "test");
 
-		PedsXmlZipfileProcessor ("testdir", "datestamp");
+		ZipfileProcessor zipfileProcessor;
+		//zipfileProcessor.procLatestZipfile("testdir", "datestamp02");
+		zipfileProcessor.procZipfile("testdir/pairbulk-custom-dcbc7c92-9aa5-45ef-b593-0521fc006720-xml.zip", "datestamp04");
 
 
 	} catch (system_exception &e) {
@@ -65,8 +67,21 @@ int main () {
 		cerr << "Unable to save one or more unzipped files from " << e.filename() << endl;
 
 	} catch (file_not_found &e) {
-		if (e.what() == "PedsXmlZipfileProcessor::procLatestZipfile" )
-			cerr << "No zip file found in directory " << e(0) << endl;
+
+		string msg;
+		string loc(e.what());
+
+		if (loc == "ZipfileProcessor::procLatestZipfile")
+			msg = "No zip file found in directory";
+		else if (loc == "ZipfileExpander::expand")
+			msg = "File not found :";
+
+		cerr << msg << " " << e.filename() << endl;
+
+	} catch (directory_error &e) {
+
+		cerr << "Unable to create directory " << e.filename() << " because it already exists.";
+
 	}
 }
 
