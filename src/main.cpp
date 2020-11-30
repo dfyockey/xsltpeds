@@ -6,6 +6,7 @@
  */
 
 #include <iostream>
+#include <boost/filesystem.hpp>
 #include "exceptions.hpp"
 #include "PedsXmlCollectionProcessor.hpp"
 
@@ -44,6 +45,8 @@ int main () {
 
 		cerr << msg;
 
+	} catch (boost::filesystem::filesystem_error &e) {
+		cerr << e.what() << endl;
 	}
 }
 

@@ -5,7 +5,7 @@
  *      Author: David Yockey
  */
 
-#include "libxml2/libxml/xmlstring.h"
+#include "libxml/xmlstring.h"
 #include "SystemXsltProcessor.hpp"
 #include "exceptions.hpp"
 

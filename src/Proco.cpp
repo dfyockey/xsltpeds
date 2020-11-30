@@ -61,6 +61,7 @@ void Proco::proc (bfs::path xmlfilepath) {
 void Proco::fnit () {
 	// Finish the new combined file by appending a closing uspat:PatentBulkData tag
 	newXmlfile << "</uspat:PatentBulkData>" << endl;
+	newXmlfile.close();
 
 	//Generate unique name for new html file
 	string htmlname = bfs::path(newXmlfilename).stem().string() + "-" + datestamp + ".peds.htm";

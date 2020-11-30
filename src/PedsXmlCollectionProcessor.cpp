@@ -43,6 +43,8 @@ void PedsXmlCollectionProcessor::process (string collectiondir, xsltranstype xtt
 		break;
 	}
 
+	bfs::exists(collectiondir);	// throws filesystem_error if nonexistent
+
 	collproc->init(collectiondir);
 
 	bfs::directory_iterator dirIndex(collectiondir);	// Initially set as Start
