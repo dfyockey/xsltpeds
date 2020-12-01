@@ -19,7 +19,7 @@ int main () {
 		//pedsXsltProc("pairbulk-20200825-163450.xml", "Result2.html");
 
 		PedsXmlCollectionProcessor procPedsXmlCollection;
-		procPedsXmlCollection.process("testdir", one);
+		procPedsXmlCollection.process("testdir2", one);
 
 	} catch (system_exception &e) {
 
