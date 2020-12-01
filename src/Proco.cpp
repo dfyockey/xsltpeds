@@ -5,8 +5,10 @@
  *      Author: David Yockey
  */
 
-#include <regex>
 #include "Proco.hpp"
+
+#include <iostream>
+#include <regex>
 
 Proco::Proco (string datestamp) : CollectionProcessor (datestamp), bFirstFile(true) {
 
@@ -66,7 +68,9 @@ void Proco::fnit () {
 	//Generate unique name for new html file
 	string htmlname = bfs::path(newXmlfilename).stem().string() + "-" + datestamp + ".peds.htm";
 
+	cout << "Processing combined XML file. This might take a while. Please wait... ";
 	transform(newXmlfilename, htmlname);
+	cout << "Done." << endl;
 
 	bfs::remove_all(collectiondir);
 	bfs::remove(newXmlfilename);

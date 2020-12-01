@@ -67,8 +67,12 @@ void PedsXmlCollectionProcessor::process (string collectiondir, xsltranstype xtt
 
 		sort (xmlfilepaths.begin(), xmlfilepaths.end(), greater<bfs::path>());
 
-		for (std::vector<bfs::path>::const_iterator i = xmlfilepaths.begin(); i != xmlfilepaths.end(); ++i)
+		cout << endl << "Processing " << xmlfilepaths.size() << " XML files... ";
+		for (std::vector<bfs::path>::const_iterator i = xmlfilepaths.begin(); i != xmlfilepaths.end(); ++i) {
+			cout << "*";
 			collproc->proc(*i);
+		}
+		cout << " ... Done." << endl << endl;
 	}
 
 	collproc->fnit();
