@@ -23,14 +23,4 @@
    this project was particularly to simplify setup and usage within
    Microsoft Windows.
    
-## Requirements & Recommendations
-
-  The following are recommended configurations for different systems.
-  All recommendations & requirements are available cost-free.
   
-### Linux users
-  - Xalan (required; listed in package managers as 'xalan' or 'xalan-c')
-  
-### Microsoft Windows users
-  - MSXML 6.0 (`msxml6.msi` required for 32-bit PCs; `msxml6_x64.msi` required for most 64-bit PCs; `msxml6_ia64.msi` required for 64-bit PCs with Itanium processors)
-  - MSXSL (`msxsl.exe` required; should be placed in the "Windows" folder, which is ordinarily `C:\Windows` ).

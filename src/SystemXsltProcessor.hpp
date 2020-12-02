@@ -8,33 +8,23 @@
 #ifndef SYSTEMXSLTPROCESSOR_HPP_
 #define SYSTEMXSLTPROCESSOR_HPP_
 
+extern int xmlLoadExtDtdDefaultValue;
 
-#include <cassert>
-#include <cstdlib>
 #include <fstream>
-#include <iostream>
+
+#include <libxslt/transform.h>
+#include <libxslt/xsltutils.h>
 #include <string>
 using namespace std;
-
-#include "exceptions.hpp"
 
 class SystemXsltProcessor {
 	//
 private:
-	typedef void (SystemXsltProcessor::*xsltproc_fptr) (string xmlfile, string xslfile, string htmlname);
-	xsltproc_fptr xsltproc;
 	bool exists(string f) { ifstream file(f); return file.good(); };
 	//
 public:
-	SystemXsltProcessor ();
+	SystemXsltProcessor () { xmlLoadExtDtdDefaultValue = 1; };
 	void transform (string xmlfile, string xslfile, string htmlname);
-#ifdef __linux__
-	void xalan (string xmlfile, string xslfile, string htmlname);
-#endif
-#ifdef _WIN32
-	void msxsl (string xmlfile, string xslfile, string htmlname);
-#endif
-	//
 };
 
 #endif /* SYSTEMXSLTPROCESSOR_HPP_ */

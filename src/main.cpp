@@ -5,6 +5,9 @@
  *      Author: David Yockey
  */
 
+#include <iostream>
+#include <boost/filesystem.hpp>
+#include "exceptions.hpp"
 #include "PedsXmlCollectionProcessor.hpp"
 
 int main () {
@@ -16,7 +19,7 @@ int main () {
 		//pedsXsltProc("pairbulk-20200825-163450.xml", "Result2.html");
 
 		PedsXmlCollectionProcessor procPedsXmlCollection;
-		procPedsXmlCollection.process(".", all);
+		procPedsXmlCollection.process("testdir2", one);
 
 	} catch (system_exception &e) {
 
@@ -42,6 +45,8 @@ int main () {
 
 		cerr << msg;
 
+	} catch (boost::filesystem::filesystem_error &e) {
+		cerr << e.what() << endl;
 	}
 }
 
