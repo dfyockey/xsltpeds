@@ -15,9 +15,6 @@
 namespace bfs = boost::filesystem;
 
 string ZipfileProcessor::procLatestZipfile (string dir, string datestamp) {
-
-	string linebuf(4096,'\0');	// construct string to receive a filename from f1
-
 	bfs::directory_iterator dirIndex(dir);	// Initially set at directory Start
 	bfs::directory_iterator dirEnd;
 
