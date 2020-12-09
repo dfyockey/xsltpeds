@@ -9,12 +9,12 @@
 
 #include <boost/filesystem.hpp>
 #include <fstream>
-#include <minizip/mz.h>
-#include <minizip/mz_strm.h>
-#include <minizip/mz_zip.h>
-#include <minizip/mz_zip_rw.h>
+#include <iostream>
+#include <vector>
+#include <zip.h>
 
 #include "exceptions.hpp"
+#include "ZipArchive.hpp"
 
 namespace bfs = boost::filesystem;
 
@@ -26,13 +26,13 @@ bool ZipfileExpander::isZipfile (string filename) {
 
 	f1.read(&filesig[0],4);
 
-	// Zip file signature is combination of ASCII codes for P, Y, ETX, and EOT
+	// Zip file signature is combination of ASCII codes for P, K, ETX, and EOT
 	return ( f1.gcount() >= 4 && filesig == "\x50\x4B\x03\x04" );
 }
 
 string ZipfileExpander::process (string zipfile, string datestamp) {
 	if (!bfs::exists(zipfile))
-		throw file_not_found("ZipfileExpander::expand", {zipfile});
+		throw file_not_found("ZipfileExpander::process", {zipfile});
 
 	string newdir = string("pairbulk-") + datestamp;
 	if ( !bfs::create_directory(newdir) )
@@ -44,30 +44,33 @@ string ZipfileExpander::process (string zipfile, string datestamp) {
 }
 
 void ZipfileExpander::expand(string zipfile, string targetdir) {
-	void *zip_reader = 0;
-	mz_zip_reader_create(&zip_reader);
-
 	try {
-
-		if (mz_zip_reader_open_file(zip_reader, zipfile.c_str()) != MZ_OK)
-			throw file_not_opened("ZipfileExpander::expand", zipfile);
+		ZipArchive zipArchive(zipfile, ZIP_RDONLY);
 
 		bfs::path destination_dir(targetdir);
-		if (mz_zip_reader_save_all(zip_reader, destination_dir.string().c_str()) != MZ_OK)
-			throw files_not_saved("ZipfileExpander::expand", zipfile);
+		vector<char> vBuffer;
 
+		int n = zip_get_num_entries(zipArchive, 0);	// get number of files in archive
+
+		for (int i=0; i<n; ++i) {
+			ZipArchiveFile zipFile(&zipArchive, i, 0);
+
+			if ((zipFile.stat().valid & ZIP_STAT_NAME) && (zipFile.stat().valid & ZIP_STAT_SIZE)) {
+				int zipFileSize = zipFile.stat().size;
+
+				vBuffer.resize(zipFileSize);
+				zip_fread(zipFile, &vBuffer[0], zipFileSize);
+
+				string targetfile = targetdir + "/" + zipFile.stat().name;
+				ofstream outfile(targetfile, ios::binary);
+				outfile.write(&vBuffer[0], zipFileSize);
+			}
+		}
 	} catch (...) {
-
 		if (bfs::exists(targetdir))
 			bfs::remove_all(targetdir);
 
-		mz_zip_reader_close(zip_reader);
-		mz_zip_reader_delete(&zip_reader);
-
 		throw;
-
 	}
-
-    mz_zip_reader_close(zip_reader);
-	mz_zip_reader_delete(&zip_reader);
 }
+

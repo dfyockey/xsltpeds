@@ -60,7 +60,12 @@ int main () {
 
 	} catch (file_not_opened &e) {
 
-		cerr << "Unable to open file " << e.filename() << endl;
+		cerr << "Unable to open file " << e.filename();
+
+		if ( !(e.error().empty()) )
+			cerr << " : " << e.error();
+
+		cerr << endl;
 
 	} catch (files_not_saved &e) {
 
@@ -73,7 +78,7 @@ int main () {
 
 		if (loc == "ZipfileProcessor::procLatestZipfile")
 			msg = "No zip file found in directory";
-		else if (loc == "ZipfileExpander::expand")
+		else if (loc == "ZipfileExpander::process")
 			msg = "File not found :";
 
 		cerr << msg << " " << e.filename() << endl;
