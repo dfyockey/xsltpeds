@@ -5,6 +5,8 @@
  *      Author: David Yockey
  */
 
+#define _CRT_SECURE_NO_WARNINGS		// Prevent Microsoft VC++ from complaining about use of `getenv()`
+
 #include "SystemXsltProcessor.hpp"
 
 SystemXsltProcessor::SystemXsltProcessor () {
