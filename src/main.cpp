@@ -5,6 +5,9 @@
  *      Author: David Yockey
  */
 
+#include <iostream>
+#include <boost/filesystem.hpp>
+#include "exceptions.hpp"
 #include "PedsXmlCollectionProcessor.hpp"
 #include "ZipfileProcessor.hpp"
 
@@ -33,7 +36,6 @@ int main () {
 		//zipfileProcessor.procLatestZipfile("testdir", "datestamp02");
 		zipfileProcessor.procZipfile("testdir/pairbulk-custom-dcbc7c92-9aa5-45ef-b593-0521fc006720-xml.zip", "datestamp04");
 
-
 	} catch (system_exception &e) {
 
 		string msg;
@@ -48,7 +50,7 @@ int main () {
 
 		cerr << msg << endl;
 
-	} catch (argument_error &args) {
+	} catch (file_not_found &args) {
 
 		string msg = string("Errors in ") + args.what() + " :\n";
 
@@ -87,6 +89,8 @@ int main () {
 
 		cerr << "Unable to create directory " << e.filename() << " because it already exists.";
 
+	} catch (boost::filesystem::filesystem_error &e) {
+		cerr << e.what() << endl;
 	}
 }
 

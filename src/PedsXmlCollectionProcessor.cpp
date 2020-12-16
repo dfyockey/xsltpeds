@@ -7,13 +7,15 @@
 
 #define _CRT_SECURE_NO_WARNINGS		// Prevent Microsoft VC++ from complaining about use of `localtime()`
 
+#include "PedsXmlCollectionProcessor.hpp"
+
 #include <ctime>
 #include <boost/filesystem.hpp>
 #include <iostream>
-#include "PedsXmlCollectionProcessor.hpp"
-#include "exceptions.hpp"
-
 #include <string>
+#include <vector>
+
+#include "exceptions.hpp"
 #include "Proca.hpp"
 #include "Procf.hpp"
 #include "Proco.hpp"
@@ -45,16 +47,32 @@ void PedsXmlCollectionProcessor::process (string collectiondir, xsltranstype xtt
 		break;
 	}
 
+	bfs::exists(collectiondir);	// throws filesystem_error if nonexistent
+
 	collproc->init(collectiondir);
 
-	bfs::directory_iterator dirIndex(collectiondir);	// Initially set as Start
-	bfs::directory_iterator dirEnd;
+//	collproc->proc()
+	{
+		std::vector<bfs::path> xmlfilepaths;
 
-	for ( /*nop*/; dirIndex != dirEnd; ++dirIndex ) {
-		bfs::path p = dirIndex->path();
-		if (p.extension() == ".xml") {
-			collproc->proc(p);
+		bfs::directory_iterator dirIndex(collectiondir);	// Initially set as dirStart
+		bfs::directory_iterator dirEnd;
+
+		for ( /*nop*/; dirIndex != dirEnd; ++dirIndex ) {
+			bfs::path p = dirIndex->path();
+			if (p.extension() == ".xml") {
+				xmlfilepaths.push_back(p);
+			}
 		}
+
+		sort (xmlfilepaths.begin(), xmlfilepaths.end(), greater<bfs::path>());
+
+		cout << endl << "Processing " << xmlfilepaths.size() << " XML files... ";
+		for (std::vector<bfs::path>::const_iterator i = xmlfilepaths.begin(); i != xmlfilepaths.end(); ++i) {
+			cout << "*";
+			collproc->proc(*i);
+		}
+		cout << " ... Done." << endl << endl;
 	}
 
 	collproc->fnit();
