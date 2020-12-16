@@ -5,7 +5,11 @@
  *      Author: David Yockey
  */
 
+
+#define _CRT_SECURE_NO_WARNINGS		// Prevent Microsoft VC++ from complaining about use of `getenv()`
+
 #include "libxml/xmlstring.h"
+
 #include "SystemXsltProcessor.hpp"
 #include "exceptions.hpp"
 
