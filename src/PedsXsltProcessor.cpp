@@ -7,8 +7,8 @@
 
 #include "PedsXsltProcessor.hpp"
 
-void PedsXsltProcessor::operator() (string xmlfile, string xslfile, string htmlname) {
+void PedsXsltProcessor::transform(string xmlfile, string xslfile, string htmlname) {
 	// Save xslfile for use in transforming multiple xml files in a PEDS zip file
 	xslpedsfile = xslfile;
-	this->operator ()(xmlfile, htmlname);
+	transform(xmlfile, htmlname);
 }
