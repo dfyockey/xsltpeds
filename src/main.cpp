@@ -41,22 +41,10 @@ int main () {
 		string msg;
 		string loc(e.what());
 
-		if (loc == "SystemXsltProcessor::SystemXsltProcessor")
-			msg = "No XSLT processor found.\nPlease install Xalan (for Linux) or MSXSL (for Windows).";
-		else if (loc == "PedsXmlCollectionProcessor::generate_datestamp")
+		if (loc == "PedsXmlCollectionProcessor::generate_datestamp")
 			msg = "Unable to generate a unique identifier for generated files due to a system error.";
 		else
 			msg = "Unknown system error!";
-
-		cerr << msg << endl;
-
-	} catch (file_not_found &args) {
-
-		string msg = string("Errors in ") + args.what() + " :\n";
-
-		if ( args(0).empty() ) msg += "\tMissing filename for output HTML file.\n";
-		if ( args(1).empty() ) msg += "\tXML file to be transformed not found.\n";
-		if ( args(2).empty() ) msg += "\tXSL transformation file not found.\n";
 
 		cerr << msg << endl;
 
@@ -78,12 +66,23 @@ int main () {
 		string msg;
 		string loc(e.what());
 
-		if (loc == "ZipfileProcessor::procLatestZipfile")
-			msg = "No zip file found in directory";
-		else if (loc == "ZipfileExpander::process")
-			msg = "File not found :";
+		if (loc == "SystemXsltProcessor::transform") {
+			msg = string("Errors in ") + loc + " :\n";
 
-		cerr << msg << " " << e.filename() << endl;
+			if ( e(0).empty() ) msg += "\tMissing filename for output HTML file.\n";
+			if ( e(1).empty() ) msg += "\tXML file to be transformed not found.\n";
+			if ( e(2).empty() ) msg += "\tXSL transformation file not found.\n";
+
+			cerr << msg << endl;
+		}
+		else {
+			if (loc == "ZipfileProcessor::procLatestZipfile")
+				msg = "No zip file found in directory";
+			else if (loc == "ZipfileExpander::process")
+				msg = "File not found :";
+
+			cerr << msg << " " << e.filename() << endl;
+		}
 
 	} catch (directory_error &e) {
 

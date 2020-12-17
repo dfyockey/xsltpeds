@@ -19,14 +19,6 @@ public:
 	system_exception (const string& exceptLoc) : runtime_error(exceptLoc){};
 };
 
-class file_not_found : public invalid_argument {
-private:
-	vector<string> args;
-public:
-	file_not_found (const string& exceptLoc, initializer_list<string> l) : invalid_argument(exceptLoc), args(l) {};
-	string& operator()(int i) { return args[i]; };
-};
-
 class file_error : public runtime_error {
 public:
 	file_error (const string& exceptLoc, string filename) : runtime_error(exceptLoc), fn(filename) {};
