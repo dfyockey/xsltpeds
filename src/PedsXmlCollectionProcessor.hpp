@@ -30,7 +30,7 @@ private:
 //
 public:
 	PedsXmlCollectionProcessor ();
-	void process(string collectiondir, xsltranstype xtt);
+	void procXmlCollection(string collectiondir, xsltranstype xtt);
 //
 };
 

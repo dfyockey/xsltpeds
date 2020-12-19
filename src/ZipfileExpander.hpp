@@ -14,7 +14,7 @@ using namespace std;
 class ZipfileExpander {
 public:
 	bool isZipfile (string filename);
-	string process(string zipfile, string datestamp);
+	string process(string zipfile, string datestamp="");
 private:
 	void expand(string zipfile, string targetdir);
 };

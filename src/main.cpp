@@ -7,34 +7,14 @@
 
 #include <iostream>
 #include <boost/filesystem.hpp>
+#include "PedsXmlZipfileProcessor.hpp"
 #include "exceptions.hpp"
-#include "PedsXmlCollectionProcessor.hpp"
-#include "ZipfileProcessor.hpp"
 
 int main () {
 	try {
 
-		//PedsXsltProcessor pedsXsltProc;
-
-		//pedsXsltProc("1996-1998.xml", "Result1.html");
-		//pedsXsltProc("pairbulk-20200825-163450.xml", "Result2.html");
-
-		//PedsXmlCollectionProcessor procPedsXmlCollection;
-		//procPedsXmlCollection.process(".", all);
-
-/*
-		ZipfileExpander zipfileExpander;
-		cout << zipfileExpander.isZipfile("LICENSE.txt") << endl;
-		cout << zipfileExpander.isZipfile("pairbulk-custom-dcbc7c92-9aa5-45ef-b593-0521fc006720-xml.zip") << endl;
-		cout << zipfileExpander.isZipfile("peds.xsl") << endl;
-		cout << zipfileExpander.isZipfile("README.md") << endl;
-*/
-
-		//zipfileExpander.process("pairbulk-custom-dcbc7c92-9aa5-45ef-b593-0521fc006720-xml.zip", "test");
-
-		ZipfileProcessor zipfileProcessor;
-		//zipfileProcessor.procLatestZipfile("testdir", "datestamp02");
-		zipfileProcessor.procZipfile("testdir/pairbulk-custom-dcbc7c92-9aa5-45ef-b593-0521fc006720-xml.zip", "datestamp04");
+		PedsXmlZipfileProcessor pedsxmlZipfileProcessor;
+		pedsxmlZipfileProcessor.run("testdir/pairbulk-custom-dcbc7c92-9aa5-45ef-b593-0521fc006720-xml.zip", all);
 
 	} catch (system_exception &e) {
 
@@ -86,10 +66,20 @@ int main () {
 
 	} catch (directory_error &e) {
 
-		cerr << "Unable to create directory " << e.filename() << " because it already exists.";
+		cerr << "Unable to create directory " << e.filename();
+
+		if ( e.what() == "ZipfileExpander::process_(exists)" )
+			cerr << " because it already exists.";
+
+		cerr << endl;
 
 	} catch (boost::filesystem::filesystem_error &e) {
 		cerr << e.what() << endl;
+	} catch (file_error &e) {
+		if ( e.what() == "PedsXmlZipfileProcessor::run" )
+			cerr << e.what() << " : Target is neither a zip file nor a directory" << endl;
+		else
+			cerr << e.what() << " : File error" << endl;
 	}
 }
 

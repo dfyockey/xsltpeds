@@ -34,8 +34,14 @@ string ZipfileExpander::process (string zipfile, string datestamp) {
 	if (!bfs::exists(zipfile))
 		throw file_not_found("ZipfileExpander::process", {zipfile});
 
-	string newdir = string("pairbulk-") + datestamp;
-	if ( !bfs::create_directory(newdir) )
+	string newdir = bfs::path(zipfile).stem().string();
+
+	if ( !datestamp.empty() )
+		newdir += "-" += datestamp;
+
+	if ( bfs::exists(newdir) )
+		throw directory_error("ZipfileExpander::process_(exists)", newdir);
+	else if ( !bfs::create_directory(newdir) )
 		throw directory_error("ZipfileExpander::process", newdir);
 
 	expand(zipfile, newdir);
