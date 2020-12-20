@@ -66,20 +66,28 @@ int main () {
 
 	} catch (directory_error &e) {
 
+		string loc(e.what());
+
 		cerr << "Unable to create directory " << e.filename();
 
-		if ( e.what() == "ZipfileExpander::process_(exists)" )
+		if ( loc == "ZipfileExpander::process_(exists)" )
 			cerr << " because it already exists.";
 
 		cerr << endl;
 
 	} catch (boost::filesystem::filesystem_error &e) {
+
 		cerr << e.what() << endl;
+
 	} catch (file_error &e) {
-		if ( e.what() == "PedsXmlZipfileProcessor::run" )
-			cerr << e.what() << " : Target is neither a zip file nor a directory" << endl;
+
+		string loc(e.what());
+
+		if ( loc == "PedsXmlZipfileProcessor::run" )
+			cerr << loc << " : Target is neither a zip file nor a directory" << endl;
 		else
-			cerr << e.what() << " : File error" << endl;
+			cerr << loc << " : File error" << endl;
+
 	}
 }
 

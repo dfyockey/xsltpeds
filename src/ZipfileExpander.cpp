@@ -36,8 +36,10 @@ string ZipfileExpander::process (string zipfile, string datestamp) {
 
 	string newdir = bfs::path(zipfile).stem().string();
 
-	if ( !datestamp.empty() )
-		newdir += "-" += datestamp;
+	if ( !datestamp.empty() ) {
+		newdir += "-";
+		newdir += datestamp;
+	}
 
 	if ( bfs::exists(newdir) )
 		throw directory_error("ZipfileExpander::process_(exists)", newdir);
