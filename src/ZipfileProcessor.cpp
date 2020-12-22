@@ -5,6 +5,13 @@
  *      Author: David Yockey
  */
 
+/*
+ * For processing a zip file with a sufficiently distinctive name
+ * for use naming a directory into which the zip file is expanded
+ * while avoiding collisions with existing directories. Should a
+ * collision occur, an exception is thrown and no damage is done.
+ */
+
 #include "ZipfileProcessor.hpp"
 
 #include <boost/filesystem.hpp>
@@ -14,7 +21,7 @@
 
 namespace bfs = boost::filesystem;
 
-string ZipfileProcessor::procLatestZipfile (string dir, string datestamp) {
+string ZipfileProcessor::procLatestZipfile (string dir) {
 	bfs::directory_iterator dirIndex(dir);	// Initially set at directory Start
 	bfs::directory_iterator dirEnd;
 
@@ -33,11 +40,11 @@ string ZipfileProcessor::procLatestZipfile (string dir, string datestamp) {
 	}
 
 	if ( latest > 0 )
-		return process(latestZipfile.string(), datestamp);
+		return process(latestZipfile.string());
 	else
 		throw file_not_found("ZipfileProcessor::procLatestZipfile", {dir});
 }
 
-string ZipfileProcessor::procZipfile (string zipfile, string datestamp) {
-	return process(zipfile, datestamp);
+string ZipfileProcessor::procZipfile (string zipfile) {
+	return process(zipfile);
 }

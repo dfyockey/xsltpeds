@@ -26,7 +26,7 @@ PedsXmlCollectionProcessor::PedsXmlCollectionProcessor () {
 	collproc = 0;
 }
 
-void PedsXmlCollectionProcessor::process (string collectiondir, xsltranstype xtt) {
+void PedsXmlCollectionProcessor::procXmlCollection (string collectiondir, xsltranstype xtt) {
 
 	/*
 	 * WARNING! Objects proca and proco used in this method automatically

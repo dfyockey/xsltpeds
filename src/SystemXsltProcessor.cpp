@@ -25,7 +25,7 @@ void SystemXsltProcessor::transform(string xmlfile, string xslfile, string htmln
 		// Clear files to indicate which, if any, were not found...
 		if ( !exists(xmlfile) ) xmlfile.clear();
 		if ( !exists(xslfile) ) xslfile.clear();
-		throw file_not_found("SystemXsltProcessor::transform()", {htmlname, xmlfile, xslfile});
+		throw file_not_found("SystemXsltProcessor::transform", {htmlname, xmlfile, xslfile});
 	}
 
 }
