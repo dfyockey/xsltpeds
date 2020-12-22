@@ -8,19 +8,20 @@
   
 ---
 
-## Description
-
    _This project is under development but not yet entirely functional.
    All information provided herein is tentative, may change at any time,
    and may not be up-to-date._
 
+---
+
+## Description
+
    Xsltpeds is an application and XSLT formatting to facilitate viewing
-   search results downloaded in XML format from the USPTO's Patent
-   Examination Data System (https://ped.uspto.gov/peds/).
+   search results downloaded in XML format from the USPTO's [Patent
+   Examination Data System](https://ped.uspto.gov/peds/).
    
-   Xsltpeds is the successor to the Bash-script-based XSLT_PEDS. While
+   Xsltpeds is the successor to the Bash-script-based [XSLT_PEDS](https://github.com/dfyockey/XSLT_PEDS). While
    this application is beneficial to Linux users, the motivation for
    this project was particularly to simplify setup and usage within
    Microsoft Windows.
    
-  
