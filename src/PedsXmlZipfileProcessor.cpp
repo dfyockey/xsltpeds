@@ -11,7 +11,9 @@
 void PedsXmlZipfileProcessor::run (string target, xsltranstype xtt) {
 	string collection;
 
-	if ( bfs::is_directory(target) )
+	if ( target.empty() )
+		collection = procLatestZipfile( bfs::current_path().string() );
+	else if ( bfs::is_directory(target) )
 		collection = procLatestZipfile(target);
 	else if ( isZipfile(target) )
 		collection = procZipfile(target);

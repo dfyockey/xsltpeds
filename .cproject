@@ -26,13 +26,14 @@
                 </extensions>
                 			
             </storageModule>
-            			
+                        			
 Conflicting files
 .cproject
 src/PedsXmlCollectionProcessor.cpp
 src/SystemXsltProcessor.cpp
 src/main.cpp
 
+            
             <storageModule moduleId="cdtBuildSystem" version="4.0.0">
                 				
                 <configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="rm -rf" description="" errorParsers="org.eclipse.cdt.core.GASErrorParser;org.eclipse.cdt.core.GmakeErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.CWDLocator;org.eclipse.cdt.core.GCCErrorParser" id="cdt.managedbuild.config.gnu.exe.debug.1284582908" name="Debug" parent="cdt.managedbuild.config.gnu.exe.debug">
@@ -81,8 +82,10 @@ src/main.cpp
                                     									
                                     <listOptionValue builtIn="false" value="boost_filesystem"/>
                                     									
+                                    <listOptionValue builtIn="false" value="boost_program_options"/>
+                                    									
                                     <listOptionValue builtIn="false" value="zip"/>
-
+                                    									
                                     <listOptionValue builtIn="false" value="xslt"/>
                                     									
                                     <listOptionValue builtIn="false" value="xml2"/>
@@ -396,7 +399,7 @@ src/main.cpp
     <storageModule moduleId="refreshScope" versionNumber="2">
         		
         <configuration configurationName="Build"/>
-
+        		
         <configuration configurationName="Debug">
             			
             <resource resourceType="PROJECT" workspacePath="/xsltpeds"/>
