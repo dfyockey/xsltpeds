@@ -1,16 +1,15 @@
 # README for Xsltpeds
 
-  Copyright © 2020 David Yockey
-  
-  Copying and distribution of this file, with or without modification,
-  are permitted in any medium without royalty provided the copyright
-  notice and this notice are preserved.
+  Copyright © 2020-2021 David Yockey<br />
+  This README file is licensed under a [CC BY 4.0 license](https://creativecommons.org/licenses/by/4.0/)
   
 ---
 
    _This project is under development but not yet entirely functional.
    All information provided herein is tentative, may change at any time,
    and may not be up-to-date._
+   
+   _A project blueprint is provided in the [Wiki](https://github.com/dfyockey/xsltpeds/wiki)._
 
 ---
 
