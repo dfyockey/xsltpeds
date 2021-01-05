@@ -10,9 +10,10 @@
 
 void PedsXmlZipfileProcessor::run (string target, xsltranstype xtt) {
 	string collection;
+	const bool trash = true;
 
 	if ( target.empty() )
-		collection = procLatestZipfile( bfs::current_path().string() );
+		collection = procLatestZipfile( bfs::current_path().string(), trash );
 	else if ( bfs::is_directory(target) )
 		collection = procLatestZipfile(target);
 	else if ( isZipfile(target) )

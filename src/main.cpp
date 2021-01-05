@@ -54,8 +54,7 @@ int main (int argc, char* argv[]) {
 		bpo::options_description opts("Options");
 		opts.add_options()
 				("individual_files,i", "Transform a PEDS XML zip file's contents to individual date-time-stamped HTML files in the current directory (i.e. folder).\n")
-				("directory_of_files,d", "Transform a PEDS XML zip file's contents to individual HTML files in a date-time-stamped directory (i.e. folder).\n")
-				("folder_of_files,f", "Synonym of option -d [--directory_of_files].\n")
+				("collection_of_files,c", "Transform a PEDS XML zip file's contents to individual date-time-stamped HTML files in a date-time-stamped directory (i.e. folder).\n")
 				("one_file,o", "Transform a PEDS XML zip file's contents into one date-time-stamped HTML file.\n")
 				("help,h", "Show this usage information.")
 				;
@@ -86,7 +85,7 @@ int main (int argc, char* argv[]) {
 		xsltranstype xtt;
 		if (parsed_opts.count("individual_files"))
 			xtt = all;
-		else if (parsed_opts.count("directory_of_files") || parsed_opts.count("folder_of_files"))
+		else if (parsed_opts.count("collection_of_files"))
 			xtt = folder;
 		else if (parsed_opts.count("one_file"))
 			xtt = one;

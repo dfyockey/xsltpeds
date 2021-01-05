@@ -21,7 +21,7 @@
 
 namespace bfs = boost::filesystem;
 
-string ZipfileProcessor::procLatestZipfile (string dir) {
+string ZipfileProcessor::procLatestZipfile (string dir, bool trash) {
 	bfs::directory_iterator dirIndex(dir);	// Initially set at directory Start
 	bfs::directory_iterator dirEnd;
 
@@ -39,8 +39,18 @@ string ZipfileProcessor::procLatestZipfile (string dir) {
 		}
 	}
 
-	if ( latest > 0 )
-		return process(latestZipfile.string());
+	if ( latest > 0 ) {
+		string newdir = process(latestZipfile.string());
+
+		if (trash) {
+			bfs::path ziptrash = ( bfs::current_path() /= "ziptrash" );
+			if ( !exists(ziptrash) )
+				bfs::create_directory(ziptrash);
+			bfs::rename(latestZipfile, ( ziptrash /= bfs::path(latestZipfile).filename() ));
+		}
+
+		return newdir;
+	}
 	else
 		throw file_not_found("ZipfileProcessor::procLatestZipfile", {dir});
 }

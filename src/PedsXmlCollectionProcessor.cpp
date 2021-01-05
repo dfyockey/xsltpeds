@@ -77,6 +77,11 @@ void PedsXmlCollectionProcessor::procXmlCollection (string collectiondir, xsltra
 
 	collproc->fnit();
 
+	// If the collproc->fnit() leaves collectiondir (e.g. when xtt = folder), then
+	// append the datestamp to collectiondir's name to prevent future name collisions
+	if ( bfs::exists(collectiondir) )
+		bfs::rename(collectiondir, ( bfs::path(collectiondir).string() + "-" + datestamp ) );
+
 	delete collproc;
 	collproc = 0;
 }
