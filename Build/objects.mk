@@ -4,5 +4,5 @@
 
 USER_OBJS :=
 
-LIBS := -lboost_filesystem -lxslt -lxml2
+LIBS := -lboost_filesystem -lboost_program_options -lzip -lxslt -lxml2
 

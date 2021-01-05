@@ -100,10 +100,15 @@ int main (int argc, char* argv[]) {
 			zipfile = string(parsed_opts["zip_file"].as<string>());
 		}
 
+
+		// Construct absolute pathname to XSL transformation file located in same directory as executable file...
+		bfs::path xslfile = bfs::path(argv[0]).parent_path();
+		xslfile /= "peds.xsl";
+
 		//////////////////////////////////////////
 		// Now, do the real work of the program...
 
-		PedsXmlZipfileProcessor pedsxmlZipfileProcessor;
+		PedsXmlZipfileProcessor pedsxmlZipfileProcessor(xslfile);
 		pedsxmlZipfileProcessor.run(zipfile, xtt);
 
 	} catch (boost::wrapexcept<boost::program_options::unknown_option> &e) {

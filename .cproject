@@ -26,13 +26,14 @@
                 </extensions>
                 			
             </storageModule>
-                        			
+                                    			
 Conflicting files
 .cproject
 src/PedsXmlCollectionProcessor.cpp
 src/SystemXsltProcessor.cpp
 src/main.cpp
 
+            
             
             <storageModule moduleId="cdtBuildSystem" version="4.0.0">
                 				
@@ -307,6 +308,10 @@ src/main.cpp
                                 <option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.cpp.link.option.libs.2055081603" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" useByScannerDiscovery="false" valueType="libs">
                                     									
                                     <listOptionValue builtIn="false" value="boost_filesystem"/>
+                                    									
+                                    <listOptionValue builtIn="false" value="boost_program_options"/>
+                                    									
+                                    <listOptionValue builtIn="false" value="zip"/>
                                     									
                                     <listOptionValue builtIn="false" value="xslt"/>
                                     									

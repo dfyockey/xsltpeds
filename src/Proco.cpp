@@ -10,10 +10,6 @@
 #include <iostream>
 #include <regex>
 
-Proco::Proco (string datestamp) : CollectionProcessor (datestamp), bFirstFile(true) {
-
-}
-
 void Proco::init (string collectiondir) {
 	CollectionProcessor::init(collectiondir);
 	newXmlfilename = collectiondir + ".xml";

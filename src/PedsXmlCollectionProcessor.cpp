@@ -22,7 +22,7 @@
 
 namespace bfs = boost::filesystem;
 
-PedsXmlCollectionProcessor::PedsXmlCollectionProcessor () {
+PedsXmlCollectionProcessor::PedsXmlCollectionProcessor (bfs::path xslfile) : xslfile(xslfile) {
 	collproc = 0;
 }
 
@@ -37,13 +37,13 @@ void PedsXmlCollectionProcessor::procXmlCollection (string collectiondir, xsltra
 
 	switch (xtt) {
 	case all:
-		collproc = new Proca(datestamp); //&proca;
+		collproc = new Proca(xslfile.string(), datestamp); //&proca;
 		break;
 	case folder:
-		collproc = new Procf(datestamp); //&procf;
+		collproc = new Procf(xslfile.string(), datestamp); //&procf;
 		break;
 	case one:
-		collproc = new Proco(datestamp); //&proco;
+		collproc = new Proco(xslfile.string(), datestamp); //&proco;
 		break;
 	}
 
