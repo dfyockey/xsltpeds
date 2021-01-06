@@ -53,8 +53,8 @@ int main (int argc, char* argv[]) {
 
 		bpo::options_description opts("Options");
 		opts.add_options()
-				("individual_files,i", "Transform a PEDS XML zip file's contents to individual date-time-stamped HTML files in the current directory (i.e. folder).\n")
-				("collection_of_files,c", "Transform a PEDS XML zip file's contents to individual date-time-stamped HTML files in a date-time-stamped directory (i.e. folder).\n")
+				("individual_files,i", "Transform a PEDS XML zip file's contents to individual date-time-stamped HTML files in the current directory.\n")
+				("collection_of_files,c", "Transform a PEDS XML zip file's contents to individual date-time-stamped HTML files in a date-time-stamped directory.\n")
 				("one_file,o", "Transform a PEDS XML zip file's contents into one date-time-stamped HTML file.\n")
 				("help,h", "Show this usage information.")
 				;
@@ -78,7 +78,7 @@ int main (int argc, char* argv[]) {
 		if (parsed_opts.count("help")) {
 			cout << "Usage:" << endl << "  xsltpeds OPTION [ZIPFILE]" << endl << endl;
 			cout << opts << endl;
-			cout << "  If no ZIPFILE is provided, xsltpeds will operate on the latest zip file" << endl << "  found in the current directory, if any." << endl;
+			cout << "  If no ZIPFILE is provided, xsltpeds will operate on the latest zip file that" << endl << "  it finds in the current directory." << endl;
 			return 0;
 		}
 
@@ -181,8 +181,10 @@ int main (int argc, char* argv[]) {
 
 		string loc(e.what());
 
-		if ( loc == "PedsXmlZipfileProcessor::run" )
-			cerr << loc << " : Target is neither a zip file nor a directory" << endl;
+		if ( loc == "PedsXmlZipfileProcessor::run" ) {
+			//cerr << loc << " : Target is neither a zip file nor a directory" << endl;
+			cerr << loc << " : Target is not a zip file." << endl;
+		}
 		else
 			cerr << loc << " : File error" << endl;
 
