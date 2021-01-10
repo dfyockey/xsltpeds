@@ -65,11 +65,11 @@ void PedsXmlCollectionProcessor::procXmlCollection (string collectiondir, xsltra
 			}
 		}
 
-		sort (xmlfilepaths.begin(), xmlfilepaths.end(), greater<bfs::path>());
+		sort (xmlfilepaths.begin(), xmlfilepaths.end(), less<bfs::path>());
 
-		cout << endl << "Processing " << xmlfilepaths.size() << " XML files... ";
+		cout << endl << "Processing " << xmlfilepaths.size() << " XML files... " << flush;
 		for (std::vector<bfs::path>::const_iterator i = xmlfilepaths.begin(); i != xmlfilepaths.end(); ++i) {
-			cout << "*";
+			cout << "*" << flush;
 			collproc->proc(*i);
 		}
 		cout << " ... Done." << endl << endl;
@@ -77,7 +77,7 @@ void PedsXmlCollectionProcessor::procXmlCollection (string collectiondir, xsltra
 
 	collproc->fnit();
 
-	// If the collproc->fnit() leaves collectiondir (e.g. when xtt = folder), then
+	// If the collproc->fnit() leaves collectiondir (i.e. when xtt = folder), then
 	// append the datestamp to collectiondir's name to prevent future name collisions
 	if ( bfs::exists(collectiondir) )
 		bfs::rename(collectiondir, ( bfs::path(collectiondir).string() + "-" + datestamp ) );

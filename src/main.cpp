@@ -95,7 +95,7 @@ int main (int argc, char* argv[]) {
 		else if (parsed_opts.count("one_file"))
 			xtt = one;
 		else {
-			errout << "An option is required.";
+			errout << "An option is required." << endl;
 			return 1;
 		}
 
