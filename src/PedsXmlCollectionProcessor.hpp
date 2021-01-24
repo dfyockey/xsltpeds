@@ -16,22 +16,16 @@ enum xsltranstype {all, folder, one};
 
 
 class PedsXmlCollectionProcessor {
-//
 private:
 	string datestamp;
 	string newdir;
 	void generate_datestamp ();
 
+	bfs::path xslfile;
 	CollectionProcessor *collproc;
-
-	//Proca proca;
-	//Procf procf;
-	//Proco proco;
-//
 public:
-	PedsXmlCollectionProcessor ();
+	PedsXmlCollectionProcessor (bfs::path xslfile);
 	void procXmlCollection(string collectiondir, xsltranstype xtt);
-//
 };
 
 #endif /* PEDSXMLCOLLECTIONPROCESSOR_HPP_ */

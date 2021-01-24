@@ -22,7 +22,7 @@
 
 namespace bfs = boost::filesystem;
 
-PedsXmlCollectionProcessor::PedsXmlCollectionProcessor () {
+PedsXmlCollectionProcessor::PedsXmlCollectionProcessor (bfs::path xslfile) : xslfile(xslfile) {
 	collproc = 0;
 }
 
@@ -37,13 +37,13 @@ void PedsXmlCollectionProcessor::procXmlCollection (string collectiondir, xsltra
 
 	switch (xtt) {
 	case all:
-		collproc = new Proca(datestamp); //&proca;
+		collproc = new Proca(xslfile.string(), datestamp); //&proca;
 		break;
 	case folder:
-		collproc = new Procf(datestamp); //&procf;
+		collproc = new Procf(xslfile.string(), datestamp); //&procf;
 		break;
 	case one:
-		collproc = new Proco(datestamp); //&proco;
+		collproc = new Proco(xslfile.string(), datestamp); //&proco;
 		break;
 	}
 
@@ -65,17 +65,22 @@ void PedsXmlCollectionProcessor::procXmlCollection (string collectiondir, xsltra
 			}
 		}
 
-		sort (xmlfilepaths.begin(), xmlfilepaths.end(), greater<bfs::path>());
+		sort (xmlfilepaths.begin(), xmlfilepaths.end(), less<bfs::path>());
 
-		cout << endl << "Processing " << xmlfilepaths.size() << " XML files... ";
+		cout << endl << "Processing " << xmlfilepaths.size() << " XML files... " << flush;
 		for (std::vector<bfs::path>::const_iterator i = xmlfilepaths.begin(); i != xmlfilepaths.end(); ++i) {
-			cout << "*";
+			cout << "*" << flush;
 			collproc->proc(*i);
 		}
 		cout << " ... Done." << endl << endl;
 	}
 
 	collproc->fnit();
+
+	// If the collproc->fnit() leaves collectiondir (i.e. when xtt = folder), then
+	// append the datestamp to collectiondir's name to prevent future name collisions
+	if ( bfs::exists(collectiondir) )
+		bfs::rename(collectiondir, ( bfs::path(collectiondir).string() + "-" + datestamp ) );
 
 	delete collproc;
 	collproc = 0;

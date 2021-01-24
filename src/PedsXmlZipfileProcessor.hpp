@@ -13,6 +13,7 @@
 
 class PedsXmlZipfileProcessor: protected PedsXmlCollectionProcessor, protected ZipfileProcessor {
 public:
+	PedsXmlZipfileProcessor (bfs::path xslfile) : PedsXmlCollectionProcessor(xslfile) {};
 	void run (string target, xsltranstype xtt);
 };
 

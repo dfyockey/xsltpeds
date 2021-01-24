@@ -10,10 +10,6 @@
 #include <iostream>
 #include <regex>
 
-Proco::Proco (string datestamp) : CollectionProcessor (datestamp), bFirstFile(true) {
-
-}
-
 void Proco::init (string collectiondir) {
 	CollectionProcessor::init(collectiondir);
 	newXmlfilename = collectiondir + ".xml";
@@ -68,7 +64,7 @@ void Proco::fnit () {
 	//Generate unique name for new html file
 	string htmlname = bfs::path(newXmlfilename).stem().string() + "-" + datestamp + ".peds.htm";
 
-	cout << "Processing combined XML file. This might take a while. Please wait... ";
+	cout << "Processing combined XML file. This might take a while. Please wait... " << flush;
 	transform(newXmlfilename, htmlname);
 	cout << "Done." << endl;
 

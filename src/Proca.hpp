@@ -12,7 +12,7 @@
 
 class Proca : public CollectionProcessor {
 public:
-	Proca (string datestamp) : CollectionProcessor (datestamp) {};
+	Proca (string xslfile, string datestamp) : CollectionProcessor (xslfile, datestamp) {};
 	void proc(bfs::path xmlfilepath);
 	void fnit();
 };

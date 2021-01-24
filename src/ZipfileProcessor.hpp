@@ -20,7 +20,7 @@
 
 class ZipfileProcessor : protected ZipfileExpander {
 public:
-	string procLatestZipfile (string dir);
+	string procLatestZipfile (string dir, bool trash=false);
 	string procZipfile (string zipfile);
 };
 
