@@ -17,10 +17,15 @@ void PedsXmlZipfileProcessor::run (string target, xsltranstype xtt) {
 //	else if ( bfs::is_directory(target) ) {
 		// Process all zipfiles in the specified directory...
 //	}
-	else if ( isZipfile(target) )
-		collection = procZipfile(target);
 	else
-		throw file_error("PedsXmlZipfileProcessor::run", target);
+		if ( bfs::exists(target) ) {
+			if ( isZipfile(target) )
+				collection = procZipfile(target);
+			else
+				throw file_error("PedsXmlZipfileProcessor::run", target);
+		}
+		else
+			throw file_not_found("PedsXmlZipfileProcessor::run", {target});
 
 	procXmlCollection(collection, xtt);
 }
