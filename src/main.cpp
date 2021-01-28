@@ -50,6 +50,12 @@ int main (int argc, char* argv[]) {
 
 	try {
 
+		// Construct absolute pathname to XSL transformation file located in same directory as executable file...
+		bfs::path xslfile = bfs::path(argv[0]).parent_path();
+		xslfile /= "peds.xsl";
+		if ( !bfs::exists(xslfile) )
+			throw file_not_found("main", {xslfile.string()});
+
 		///////////////////////////////////////////
 		// Process program options and arguments...
 
@@ -101,11 +107,6 @@ int main (int argc, char* argv[]) {
 			zipfile = string(parsed_opts["zip_file"].as<string>());
 		}
 
-
-		// Construct absolute pathname to XSL transformation file located in same directory as executable file...
-		bfs::path xslfile = bfs::path(argv[0]).parent_path();
-		xslfile /= "peds.xsl";
-
 		//////////////////////////////////////////
 		// Now, do the real work of the program...
 
@@ -149,7 +150,9 @@ int main (int argc, char* argv[]) {
 		else {
 			if (loc == "ZipfileProcessor::procLatestZipfile")
 				msg = "No valid zip file found in directory";
-			else // if (loc == "ZipfileExpander::process")
+			else if (loc == "main")
+				msg = "File not found : XSL transformation file";
+			else // if (loc == "ZipfileExpander::process") or otherwise
 				msg = "File not found :";
 
 			errout << msg << " " << e.filename() << endl;

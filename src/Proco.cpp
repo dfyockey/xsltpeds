@@ -67,7 +67,7 @@ void Proco::fnit () {
 	//Generate unique name for new html file
 	string htmlname = bfs::path(newXmlfilename).stem().string() + "-" + datestamp + ".peds.htm";
 
-	cout << "Processing combined XML file. This might take a while. Please wait... " << flush;
+	cout << "Processing combined XML file. This might take a while. Please wait... " << endl;
 	transform(newXmlfilename, htmlname);
 	cout << "Done." << endl;
 }
