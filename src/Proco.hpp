@@ -13,6 +13,7 @@
 class Proco : public CollectionProcessor {
 public:
 	Proco (string xslfile, string datestamp) : CollectionProcessor (xslfile, datestamp), bFirstFile(true) {};
+   ~Proco ();
 	void init (string collectiondir);
 	void proc (bfs::path xmlfilepath);
 	void fnit ();

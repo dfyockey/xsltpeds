@@ -12,6 +12,6 @@ void Proca::proc (bfs::path xmlfilepath) {
 	transform(xmlfilepath.string(), htmlname);
 }
 
-void Proca::fnit () {
+Proca::~Proca () {
 	bfs::remove_all(collectiondir);
 }

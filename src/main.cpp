@@ -16,12 +16,9 @@
 	Unzips a PEDS collection of Xml files to *individual* files in
 	the current folder while insuring that each file has unique name.
 
-  -d, --directory_of_files
+  -c, --collection_of_files
 	Unzips a PEDS collection of Xml files to individual files in
 	a directory (i.e. folder) while insuring that the folder is uniquely named.
-
-  -f, --folder_of_files
-    Synonyms of option -d and --directory_of_files.
 
   -o, --one_file
 	Unzips a PEDS collection of Xml files and combines them
@@ -151,7 +148,7 @@ int main (int argc, char* argv[]) {
 		}
 		else {
 			if (loc == "ZipfileProcessor::procLatestZipfile")
-				msg = "No zip file found in directory";
+				msg = "No valid zip file found in directory";
 			else // if (loc == "ZipfileExpander::process")
 				msg = "File not found :";
 
@@ -168,6 +165,10 @@ int main (int argc, char* argv[]) {
 			cerr << " because it already exists.";
 
 		cerr << endl;
+
+	} catch (directory_not_found &e) {
+
+		errout << "Directory " << e.filename() << " not found.";
 
 	} catch (boost::filesystem::filesystem_error &e) {
 

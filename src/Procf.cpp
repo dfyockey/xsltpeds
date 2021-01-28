@@ -9,6 +9,14 @@
 
 void Procf::proc (bfs::path xmlfilepath) {
 	string htmlname = collectiondir + "/" + xmlfilepath.stem().string() + "-" + datestamp + ".peds.htm";
-	transform(xmlfilepath.string(), htmlname);
+
+	// In "folder" processing mode, `collectiondir` shouldn't be removed at all unless there's an error.
+	try {
+		transform(xmlfilepath.string(), htmlname);
+	} catch (...) {
+		bfs::remove_all(collectiondir);
+		throw;
+	}
+
 	bfs::remove(xmlfilepath);
 }

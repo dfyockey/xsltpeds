@@ -57,6 +57,9 @@ void Proco::proc (bfs::path xmlfilepath) {
 }
 
 void Proco::fnit () {
+	// This code needs to be implemented separately from the destructor to enable
+	// running of cleanup code whether or not `transform` throws an exception.
+
 	// Finish the new combined file by appending a closing uspat:PatentBulkData tag
 	newXmlfile << "</uspat:PatentBulkData>" << endl;
 	newXmlfile.close();
@@ -67,7 +70,9 @@ void Proco::fnit () {
 	cout << "Processing combined XML file. This might take a while. Please wait... " << flush;
 	transform(newXmlfilename, htmlname);
 	cout << "Done." << endl;
+}
 
+Proco::~Proco () {
 	bfs::remove_all(collectiondir);
 	bfs::remove(newXmlfilename);
 }

@@ -47,4 +47,9 @@ public:
 	directory_error (const string& exceptLoc, string filename) : file_error(exceptLoc, filename) {};
 };
 
+class directory_not_found : public file_error {
+public:
+	directory_not_found (const string& exceptLoc, string filename) : file_error(exceptLoc, filename) {};
+};
+
 #endif /* EXCEPTIONS_HPP_ */

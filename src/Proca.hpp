@@ -13,8 +13,9 @@
 class Proca : public CollectionProcessor {
 public:
 	Proca (string xslfile, string datestamp) : CollectionProcessor (xslfile, datestamp) {};
+   ~Proca ();
 	void proc(bfs::path xmlfilepath);
-	void fnit();
+	void fnit(){};
 };
 
 #endif /* PROCA_HPP_ */
