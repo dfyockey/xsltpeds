@@ -5,33 +5,6 @@
  *      Author: David Yockey
  */
 
-/*
- * Command Line Usage to be implemented:
- * (display if no option is provided)
- *
-
-  Usage: xsltpeds OPTION [ZIPFILE]
-
-  -i, --individual_files
-	Unzips a PEDS collection of Xml files to *individual* files in
-	the current folder while insuring that each file has unique name.
-
-  -c, --collection_of_files
-	Unzips a PEDS collection of Xml files to individual files in
-	a directory (i.e. folder) while insuring that the folder is uniquely named.
-
-  -o, --one_file
-	Unzips a PEDS collection of Xml files and combines them
-	into *one* uniquely-named Xml file.
-
-  -h, --help
-    Show this usage information.
-
-  If no ZIPFILE is provided, xsltpeds will operate on the latest zip file
-  found in the current directory, if any.
-
- */
-
 #include <iostream>
 #include <fstream>
 #include <boost/filesystem.hpp>
@@ -50,8 +23,9 @@ int main (int argc, char* argv[]) {
 
 	try {
 
-		// Construct absolute pathname to XSL transformation file located in same directory as executable file...
-		bfs::path xslfile = bfs::path(argv[0]).parent_path();
+		// Construct absolute pathname to XSL transformation file
+		// located in directory above that of the executable file...
+		bfs::path xslfile = bfs::path(argv[0]).parent_path().parent_path();
 		xslfile /= "peds.xsl";
 		if ( !bfs::exists(xslfile) )
 			throw file_not_found("main", {xslfile.string()});
@@ -61,9 +35,9 @@ int main (int argc, char* argv[]) {
 
 		bpo::options_description opts("Options");
 		opts.add_options()
-				("individual_files,i", "Transform a PEDS XML zip file's contents to individual date-time-stamped HTML files in the current directory.\n")
-				("collection_of_files,c", "Transform a PEDS XML zip file's contents to individual date-time-stamped HTML files in a date-time-stamped directory.\n")
-				("one_file,o", "Transform a PEDS XML zip file's contents into one date-time-stamped HTML file.\n")
+				("individual_files,i", "Converts the zip file to one or more HTML files in the current directory.\n")
+				("collection_of_files,c", "Converts the zip file to one or more HTML files in a date-time-stamped directory.\n")
+				("one_file,o", "Converts the zip file to a single HTML file.\n")
 				("help,h", "Show this usage information.")
 				;
 
@@ -84,9 +58,13 @@ int main (int argc, char* argv[]) {
 		notify(parsed_opts);
 
 		if (parsed_opts.count("help")) {
-			cout << "Usage:" << endl << "  xsltpeds OPTION [ZIPFILE]" << endl << endl;
+			cout << "\nUsage:" << endl << "  xsltpeds OPTION [ZIPFILE]" << endl << endl;
+			cout << "  If no ZIPFILE is provided, xsltpeds will operate on the latest zip file" << endl;
+			cout << "  found in the current directory." << endl << endl;
+			cout << "Description:" << endl;
+			cout << "  Converts a PEDS XML zip file to one or more date-time-stamped HTML files" << endl;
+			cout << "  for viewing in a browser (e.g. Chrome, Edge, Firefox, or Safari)." << endl << endl;
 			cout << opts << endl;
-			cout << "  If no ZIPFILE is provided, xsltpeds will operate on the latest zip file that" << endl << "  it finds in the current directory." << endl;
 			return 0;
 		}
 
