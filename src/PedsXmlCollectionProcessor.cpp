@@ -26,12 +26,22 @@ PedsXmlCollectionProcessor::PedsXmlCollectionProcessor (bfs::path xslfile) : xsl
 	collproc = 0;
 }
 
+PedsXmlCollectionProcessor::~PedsXmlCollectionProcessor () {
+	if (collproc){
+		delete collproc;
+		collproc = 0;
+	}
+}
+
 void PedsXmlCollectionProcessor::procXmlCollection (string collectiondir, xsltranstype xtt) {
 
 	/*
 	 * WARNING! Objects proca and proco used in this method automatically
 	 *          remove the collectiondir directory in their fnit() methods!
 	 */
+
+	if ( !bfs::exists(collectiondir) )
+		throw directory_not_found("PedsXmlCollectionProcessor::procXmlCollection", collectiondir);
 
 	generate_datestamp();
 
@@ -47,11 +57,9 @@ void PedsXmlCollectionProcessor::procXmlCollection (string collectiondir, xsltra
 		break;
 	}
 
-	bfs::exists(collectiondir);	// throws filesystem_error if nonexistent
-
 	collproc->init(collectiondir);
 
-//	collproc->proc()
+//	collproc->proc() processing...
 	{
 		std::vector<bfs::path> xmlfilepaths;
 
@@ -77,13 +85,13 @@ void PedsXmlCollectionProcessor::procXmlCollection (string collectiondir, xsltra
 
 	collproc->fnit();
 
+	delete collproc;
+	collproc = 0;
+
 	// If the collproc->fnit() leaves collectiondir (i.e. when xtt = folder), then
 	// append the datestamp to collectiondir's name to prevent future name collisions
 	if ( bfs::exists(collectiondir) )
 		bfs::rename(collectiondir, ( bfs::path(collectiondir).string() + "-" + datestamp ) );
-
-	delete collproc;
-	collproc = 0;
 }
 
 void PedsXmlCollectionProcessor::generate_datestamp () {

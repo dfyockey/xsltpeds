@@ -13,7 +13,6 @@
 class Procf : public CollectionProcessor {
 public:
 	Procf (string xslfile, string datestamp) : CollectionProcessor (xslfile, datestamp) {};
-	void init(){};
 	void proc(bfs::path xmlfilepath);
 	void fnit(){};
 };

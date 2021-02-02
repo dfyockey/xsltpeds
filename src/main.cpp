@@ -5,36 +5,6 @@
  *      Author: David Yockey
  */
 
-/*
- * Command Line Usage to be implemented:
- * (display if no option is provided)
- *
-
-  Usage: xsltpeds OPTION [ZIPFILE]
-
-  -i, --individual_files
-	Unzips a PEDS collection of Xml files to *individual* files in
-	the current folder while insuring that each file has unique name.
-
-  -d, --directory_of_files
-	Unzips a PEDS collection of Xml files to individual files in
-	a directory (i.e. folder) while insuring that the folder is uniquely named.
-
-  -f, --folder_of_files
-    Synonyms of option -d and --directory_of_files.
-
-  -o, --one_file
-	Unzips a PEDS collection of Xml files and combines them
-	into *one* uniquely-named Xml file.
-
-  -h, --help
-    Show this usage information.
-
-  If no ZIPFILE is provided, xsltpeds will operate on the latest zip file
-  found in the current directory, if any.
-
- */
-
 #include <iostream>
 #include <fstream>
 #include <boost/filesystem.hpp>
@@ -53,14 +23,21 @@ int main (int argc, char* argv[]) {
 
 	try {
 
+		// Construct absolute pathname to XSL transformation file
+		// located in directory above that of the executable file...
+		bfs::path xslfile = bfs::path(argv[0]).parent_path().parent_path();
+		xslfile /= "peds.xsl";
+		if ( !bfs::exists(xslfile) )
+			throw file_not_found("main", {xslfile.string()});
+
 		///////////////////////////////////////////
 		// Process program options and arguments...
 
 		bpo::options_description opts("Options");
 		opts.add_options()
-				("individual_files,i", "Transform a PEDS XML zip file's contents to individual date-time-stamped HTML files in the current directory.\n")
-				("collection_of_files,c", "Transform a PEDS XML zip file's contents to individual date-time-stamped HTML files in a date-time-stamped directory.\n")
-				("one_file,o", "Transform a PEDS XML zip file's contents into one date-time-stamped HTML file.\n")
+				("individual_files,i", "Converts the zip file to one or more HTML files in the current directory.\n")
+				("collection_of_files,c", "Converts the zip file to one or more HTML files in a date-time-stamped directory.\n")
+				("one_file,o", "Converts the zip file to a single HTML file.\n")
 				("help,h", "Show this usage information.")
 				;
 
@@ -81,9 +58,13 @@ int main (int argc, char* argv[]) {
 		notify(parsed_opts);
 
 		if (parsed_opts.count("help")) {
-			cout << "Usage:" << endl << "  xsltpeds OPTION [ZIPFILE]" << endl << endl;
+			cout << "\nUsage:" << endl << "  xsltpeds OPTION [ZIPFILE]" << endl << endl;
+			cout << "  If no ZIPFILE is provided, xsltpeds will operate on the latest zip file" << endl;
+			cout << "  found in the current directory." << endl << endl;
+			cout << "Description:" << endl;
+			cout << "  Converts a PEDS XML zip file to one or more date-time-stamped HTML files" << endl;
+			cout << "  for viewing in a browser (e.g. Chrome, Edge, Firefox, or Safari)." << endl << endl;
 			cout << opts << endl;
-			cout << "  If no ZIPFILE is provided, xsltpeds will operate on the latest zip file that" << endl << "  it finds in the current directory." << endl;
 			return 0;
 		}
 
@@ -103,11 +84,6 @@ int main (int argc, char* argv[]) {
 		if (parsed_opts.count("zip_file")) {
 			zipfile = string(parsed_opts["zip_file"].as<string>());
 		}
-
-
-		// Construct absolute pathname to XSL transformation file located in same directory as executable file...
-		bfs::path xslfile = bfs::path(argv[0]).parent_path();
-		xslfile /= "peds.xsl";
 
 		//////////////////////////////////////////
 		// Now, do the real work of the program...
@@ -151,8 +127,10 @@ int main (int argc, char* argv[]) {
 		}
 		else {
 			if (loc == "ZipfileProcessor::procLatestZipfile")
-				msg = "No zip file found in directory";
-			else // if (loc == "ZipfileExpander::process")
+				msg = "No valid zip file found in directory";
+			else if (loc == "main")
+				msg = "File not found : XSL transformation file";
+			else // if (loc == "ZipfileExpander::process") or otherwise
 				msg = "File not found :";
 
 			errout << msg << " " << e.filename() << endl;
@@ -168,6 +146,10 @@ int main (int argc, char* argv[]) {
 			cerr << " because it already exists.";
 
 		cerr << endl;
+
+	} catch (directory_not_found &e) {
+
+		errout << "Directory " << e.filename() << " not found.";
 
 	} catch (boost::filesystem::filesystem_error &e) {
 

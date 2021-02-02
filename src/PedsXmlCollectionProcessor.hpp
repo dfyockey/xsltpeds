@@ -25,6 +25,7 @@ private:
 	CollectionProcessor *collproc;
 public:
 	PedsXmlCollectionProcessor (bfs::path xslfile);
+   ~PedsXmlCollectionProcessor ();
 	void procXmlCollection(string collectiondir, xsltranstype xtt);
 };
 
