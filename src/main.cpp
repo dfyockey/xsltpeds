@@ -23,12 +23,17 @@ int main (int argc, char* argv[]) {
 
 	try {
 
-		// Construct absolute pathname to XSL transformation file
-		// located in directory above that of the executable file...
-		bfs::path xslfile = bfs::path(argv[0]).parent_path().parent_path();
-		xslfile /= "peds.xsl";
-		if ( !bfs::exists(xslfile) )
-			throw file_not_found("main", {xslfile.string()});
+		// Construct absolute pathname to XSL transformation file that should be located in one of three places...
+		string pxsl("peds.xsl");
+		bfs::path xslfile = (bfs::path("/usr/local/share/xsltpeds") /= pxsl);	// Check standard install location
+		if ( !bfs::exists(xslfile) ) {
+			xslfile = (bfs::current_path() /= pxsl);							// Check current directory
+			if ( !bfs::exists(xslfile) ) {
+				xslfile = (bfs::current_path().parent_path() /= pxsl);			// Check parent directory (facilitating use of a 'build' dir)
+				if ( !bfs::exists(xslfile) )
+					throw file_not_found("main", {pxsl});
+			}
+		}
 
 		///////////////////////////////////////////
 		// Process program options and arguments...

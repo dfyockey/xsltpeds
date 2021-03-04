@@ -37,5 +37,5 @@ xsltpeds_LDFLAGS = \
 	-lxslt \
 	-lxml2
 
-myprojdatadir = $(datadir)/xsltpeds
-dist_myprojdata_DATA = share/xsltpeds/peds.xsl
+myprojdatadir = $(pkgdatadir)
+dist_myprojdata_DATA = peds.xsl
