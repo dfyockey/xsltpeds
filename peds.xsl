@@ -1,28 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pat="http://www.wipo.int/standards/XMLSchema/ST96/Patent" xmlns:uscom="urn:us:gov:doc:uspto:common" xmlns:uspat="urn:us:gov:doc:uspto:patent" xmlns:com="http://www.wipo.int/standards/XMLSchema/ST96/Common" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pat="http://www.wipo.int/standards/XMLSchema/ST96/Patent" xmlns:uscom="urn:us:gov:doc:uspto:common" xmlns:uspat="urn:us:gov:doc:uspto:patent" xmlns:com="http://www.wipo.int/standards/XMLSchema/ST96/Common" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:meta="myns:meta">
 
 <!--
     peds.xsl - Patent Examination Data System XSLT Transform Stylesheet
 
-    Copyright © 2020 David Yockey
+    Copyright © 2020-2021 David Yockey
 
-    This file is part of XSLT_PEDS.
+    This file is part of Xsltpeds.
 
-    XSLT_PEDS is free software: you can redistribute it and/or modify
+    Xsltpeds is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    XSLT_PEDS is distributed in the hope that it will be useful,
+    Xsltpeds is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with XSLT_PEDS.  If not, see <https://www.gnu.org/licenses/>.
+    along with Xsltpeds.  If not, see <https://www.gnu.org/licenses/>.
 -->
 
 <xsl:output method="html"/>
+
+<meta:metadata>
+	<xsltprocessor>Xsltpeds 1.0.0</xsltprocessor>
+	<thisfile>peds.xsl 1.0.0</thisfile>
+	<pedsschema>V8_0</pedsschema>
+</meta:metadata>
+
+<xsl:variable name="varMetadata" select="document('')/*/meta:metadata"/>
 
 <!-- =============== -->
 <!--  MAIN TEMPLATE  -->
@@ -32,8 +40,53 @@
 	<html>
 		
 		<head>
+		<meta name="generator">           <xsl:attribute name="content"><xsl:value-of select="$varMetadata/xsltprocessor"/></xsl:attribute>  </meta>
+		<meta name="transformation-file"> <xsl:attribute name="content"><xsl:value-of select="$varMetadata/thisfile"/></xsl:attribute>   </meta>
+		<meta name="uspto-peds-schema">   <xsl:attribute name="content"><xsl:value-of select="$varMetadata/pedsschema"/></xsl:attribute> </meta>
 
-			<script language="javascript">
+<xsl:text>
+
+</xsl:text>
+
+<!-- THE FOLLOWING LICENSE DOES NOT APPLY TO THIS STYLESHEET FILE! -->
+<!-- IT APPLIES ONLY TO HTML FILES GENERATED USING THIS FILE!!!!!! -->
+<xsl:comment>
+  License : BSD-3-Clause
+
+    Copyright © 2021 David Yockey
+
+    Redistribution and use in source and binary forms, with or without
+    modification, are permitted provided that the following conditions
+    are met:
+
+    1. Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+
+    2. Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in the
+    documentation and/or other materials provided with the distribution.
+
+    3. Neither the name of the copyright holder nor the names of its
+    contributors may be used to endorse or promote products derived from
+    this software without specific prior written permission.
+
+    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+    "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+    LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+    FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+    COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+    INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+    BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+    LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+    CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+    LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+    ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+    POSSIBILITY OF SUCH DAMAGE.
+</xsl:comment>
+
+<xsl:text>
+
+			</xsl:text><script language="javascript">
 
 				// Utility to align an element to the top of the viewport
 				function alignClickedTitleToTop(e) {
@@ -180,7 +233,6 @@
 		
 	</html>
 </xsl:template>
-
 
 <!-- ================ -->
 <!--  DATA TEMPLATES  -->
