@@ -70,7 +70,7 @@ If a zip file to be processed is elsewhere than in the current directory, or if 
 
 In this case, the processed zip file is not moved.
 
-##### HTML File Usage
+### HTML File Usage
 
 To toggle the visibility of all data sections in a generated HTML file except the ***Application Data*** sections, click any ***Application Data*** heading in the file. This can facilitate browsing through a large collection of results to find applications of interest.
 
