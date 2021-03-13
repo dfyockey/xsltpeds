@@ -1,8 +1,22 @@
 /*
  * main.cpp
  *
- *  Created on: Oct 16, 2020
- *      Author: David Yockey
+ *  Copyright © 2020-2021 David Yockey
+ *
+ *  This file is part of Xsltpeds.
+ *
+ *  Xsltpeds is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  Xsltpeds is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with Xsltpeds.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #include <iostream>
@@ -23,12 +37,17 @@ int main (int argc, char* argv[]) {
 
 	try {
 
-		// Construct absolute pathname to XSL transformation file
-		// located in directory above that of the executable file...
-		bfs::path xslfile = bfs::path(argv[0]).parent_path().parent_path();
-		xslfile /= "peds.xsl";
-		if ( !bfs::exists(xslfile) )
-			throw file_not_found("main", {xslfile.string()});
+		// Construct absolute pathname to XSL transformation file that should be located in one of three places...
+		string pxsl("peds.xsl");
+		bfs::path xslfile = (bfs::path("/usr/local/share/xsltpeds") /= pxsl);	// Check standard install location
+		if ( !bfs::exists(xslfile) ) {
+			xslfile = (bfs::current_path() /= pxsl);							// Check current directory
+			if ( !bfs::exists(xslfile) ) {
+				xslfile = (bfs::current_path().parent_path() /= pxsl);			// Check parent directory (facilitating use of a 'build' dir)
+				if ( !bfs::exists(xslfile) )
+					throw file_not_found("main", {pxsl});
+			}
+		}
 
 		///////////////////////////////////////////
 		// Process program options and arguments...

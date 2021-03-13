@@ -1,5 +1,5 @@
-/Build/xsltpeds
-/Build/src/*.d
-/Build/src/*.o
-/Debug/
-/Release/
+/build/xsltpeds
+/build/src/*.d
+/build/src/*.o
+/autom4te.cache/
+/build/
